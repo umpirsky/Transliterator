@@ -138,7 +138,7 @@ class Transliterator {
 	 * @return	array	cyrillic char map
 	 */
 	protected function getCyrMap() {
-		return DataLoader::getTransliterationMap($this->getLang(), DataLoader::ALPHABET_CYR);
+		return $this->dataLoader->getTransliterationMap($this->getLang(), DataLoader::ALPHABET_CYR);
 	}
 
 	/**
@@ -147,6 +147,6 @@ class Transliterator {
 	 * @return	array	latin char map
 	 */
 	protected function getLatMap() {
-		return DataLoader::getTransliterationMap($this->getLang(), DataLoader::ALPHABET_LAT);
+		return $this->dataLoader->getTransliterationMap($this->getLang(), DataLoader::ALPHABET_LAT);
 	}
 }
