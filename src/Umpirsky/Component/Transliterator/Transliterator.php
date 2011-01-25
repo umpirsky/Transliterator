@@ -94,8 +94,8 @@ class Transliterator {
 	public function __construct($lang, $system = self::TRANS_DEFAULT) {
 		$this->setLang($lang)
 		  ->setSystem($system)
-		  ->setMapBasePath(__DIR__);
-		$this->dataLoader = new DataLoader();
+		  ->setMapBasePath(__DIR__)
+		  ->dataLoader = new DataLoader();
 	}
 
 	/**
