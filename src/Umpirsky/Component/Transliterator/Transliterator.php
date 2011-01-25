@@ -41,7 +41,7 @@ class Transliterator {
 	 * @var string
 	 */
 	protected $lang;
-	
+
 	/**
 	 * Mapping loader.
 	 *
@@ -56,15 +56,7 @@ class Transliterator {
 	 * @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 	 */
 	public function __construct($lang) {
-		if (2 !== strlen($lang)) {
-			throw new \InvalidArgumentException('Language identifier should be 2 characters long.');
-		}
-
-		if (!in_array($lang, array(self::LANG_SR, self::LANG_RU))) {
-			throw new \InvalidArgumentException(sprintf('Language "%s" is not supported.', $lang));
-		}
-
-		$this->lang = $lang;
+		$this->setLang($lang);
 		$this->dataLoader = new DataLoader();
 	}
 
@@ -75,6 +67,33 @@ class Transliterator {
 	 */
 	public function getLang() {
 		return $this->lang;
+	}
+
+	/**
+	 * Set language.
+	 *
+	 * @param string $lang ISO 639-1 language code
+	 * @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+	 */
+	public function setLang($lang) {
+		if (2 !== strlen($lang)) {
+			throw new \InvalidArgumentException('Language identifier should be 2 characters long.');
+		}
+
+		if (!in_array($lang, $this->getSupportedLanguages())) {
+			throw new \InvalidArgumentException(sprintf('Language "%s" is not supported.', $lang));
+		}
+
+		$this->lang = $lang;
+	}
+
+	/**
+	 * Get suported languages.
+	 *
+	 * @return	array	of supported languages
+	 */
+	public function getSupportedLanguages() {
+		return array(self::LANG_SR, self::LANG_RU);
 	}
 
 	/**
@@ -107,9 +126,9 @@ class Transliterator {
 	 */
 	public function transliterate($text, $direction) {
 		if ($direction) {
-			return str_replace($this->getCyr(), $this->getLat(), $text);
+			return str_replace($this->getCyrMap(), $this->getLatMap(), $text);
 		} else {
-			return str_replace($this->getLat(), $this->getCyr(), $text);
+			return str_replace($this->getLatMap(), $this->getCyrMap(), $text);
 		}
 	}
 
@@ -118,7 +137,7 @@ class Transliterator {
 	 *
 	 * @return	array	cyrillic char map
 	 */
-	protected function getCyr() {
+	protected function getCyrMap() {
 		return DataLoader::getTransliterationMap($this->getLang(), DataLoader::ALPHABET_CYR);
 	}
 
@@ -127,7 +146,7 @@ class Transliterator {
 	 *
 	 * @return	array	latin char map
 	 */
-	protected function getLat() {
+	protected function getLatMap() {
 		return DataLoader::getTransliterationMap($this->getLang(), DataLoader::ALPHABET_LAT);
 	}
 }
