@@ -1,0 +1,12 @@
+README
+======
+
+What is Umpirsky?
+-----------------
+
+Umpirsky is a collection of standalone PHP compoennts.
+
+Requirements
+------------
+
+Umpirsky is only supported on PHP 5.3.2 and up.
