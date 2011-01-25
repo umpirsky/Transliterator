@@ -48,6 +48,20 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
 		self::$transliteratorRuGOST1971 = new Transliterator(Transliterator::LANG_RU, Transliterator::TRANS_RU_GOST_1971);
 		self::$transliteratorRuISOR91968 = new Transliterator(Transliterator::LANG_RU, Transliterator::TRANS_RU_ISO_R_9_1968);
 	}
+	
+	/**
+     * @expectedException InvalidArgumentException
+     */
+    public function testWrongLanguage() {
+    	$transliterator = new Transliterator('xx');
+    }
+    
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testWrongSystem() {
+        $transliterator = new Transliterator(Transliterator::LANG_SR, 'xxx');
+    }
 
     /**
      * @dataProvider testSerbianProvider

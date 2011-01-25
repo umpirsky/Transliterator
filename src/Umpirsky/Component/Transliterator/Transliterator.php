@@ -62,6 +62,27 @@ class Transliterator {
 	 * @var DataLoader
 	 */
 	protected $dataLoader;
+	
+	/**
+	 * Cyrillic mapping.
+	 *
+	 * @var array
+	 */
+	protected $cyrMap;
+	
+	/**
+	 * Latin mapping.
+	 *
+	 * @var array
+	 */
+	protected $latMap;
+	
+	/**
+	 * Path to map files.
+	 *
+	 * @var string
+	 */
+	protected $mapBasePath;
 
 	/**
 	 * Transliterator constructor.
@@ -71,8 +92,9 @@ class Transliterator {
 	 * @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 	 */
 	public function __construct($lang, $system = self::TRANS_DEFAULT) {
-		$this->setLang($lang);
-		$this->setSystem($system);
+		$this->setLang($lang)
+		  ->setSystem($system)
+		  ->setMapBasePath(__DIR__);
 		$this->dataLoader = new DataLoader();
 	}
 
@@ -89,6 +111,7 @@ class Transliterator {
 	 * Set language.
 	 *
 	 * @param string $lang ISO 639-1 language code
+	 * @return Transliterator fluent interface
 	 * @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 	 */
 	public function setLang($lang) {
@@ -101,6 +124,8 @@ class Transliterator {
 		}
 
 		$this->lang = $lang;
+		
+		return $this;
 	}
 
 	/**
@@ -116,15 +141,18 @@ class Transliterator {
 	 * Set trnaliteration system.
 	 *
 	 * @param string $system transliteration system
+	 * @return Transliterator fluent interface
 	 */
 	public function setSystem($system) {
 		if (!in_array($system, $this->getSupportedTranliterationSystems())) {
-			throw new InvalidArgumentException(
+			throw new \InvalidArgumentException(
 				sprintf('Transliteration system "%s" is not supported for "%s" language.', $system, $this->getLang())
 			);
 		}
 
 		$this->system = $system;
+		
+		return $this;
 	}
 
 	/**
@@ -197,8 +225,12 @@ class Transliterator {
 	 *
 	 * @return array cyrillic char map
 	 */
-	protected function getCyrMap() {
-		return $this->dataLoader->getTransliterationMap($this, DataLoader::ALPHABET_CYR);
+	public function getCyrMap() {
+		if (null === $this->cyrMap) {
+			$this->cyrMap = $this->dataLoader->getTransliterationMap($this, DataLoader::ALPHABET_CYR);
+		}
+		
+		return $this->cyrMap;
 	}
 
 	/**
@@ -206,7 +238,56 @@ class Transliterator {
 	 *
 	 * @return array latin char map
 	 */
-	protected function getLatMap() {
-		return $this->dataLoader->getTransliterationMap($this, DataLoader::ALPHABET_LAT);
+	public function getLatMap() {
+		if (null === $this->latMap) {
+			$this->latMap = $this->dataLoader->getTransliterationMap($this, DataLoader::ALPHABET_LAT);
+		}
+		
+		return $this->latMap;
 	}
+	
+	/**
+     * Set cyrillic char map.
+     *
+     * @param array $cyrMap cyrillic char map
+     * @return Transliterator fluent interface
+     */
+    public function setCyrMap(array $cyrMap) {
+    	$this->cyrMap = $cyrMap;
+    	
+    	return $this;
+    }
+	
+	/**
+     * Set latin char map.
+     *
+     * @param array $latMap latin char map
+     * @return Transliterator fluent interface
+     */
+    public function setLatMap(array $latMap) {
+    	$this->latMap = $latMap;
+    	
+    	return $this;
+    }
+    
+    /**
+     * Set path to map files.
+     *
+     * @param string $mapBasePath path to map files
+     * @return Transliterator fluent interface
+     */
+    public function setMapBasePath($mapBasePath) {
+        $this->mapBasePath = $mapBasePath;
+        
+        return $this;
+    }
+    
+    /**
+     * Get path to map files.
+     *
+     * @return string path to map files
+     */
+    public function getMapBasePath() {
+        return $this->mapBasePath;
+    }
 }

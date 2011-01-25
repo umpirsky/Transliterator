@@ -60,7 +60,7 @@ class DataLoader {
     		return $this->mappingCache[$mappingCacheId][$alphabet];
     	}
 
-        $path = sprintf('%s/data/%s/%s.php', __DIR__, $transliterator->getLang(), $transliterator->getSystem());
+        $path = sprintf('%s/data/%s/%s.php', $transliterator->getMapBasePath(), $transliterator->getLang(), $transliterator->getSystem());
         if (!file_exists($path)) {
             throw new \Exception(sprintf('Map file "%s" does not exist.', $path));
         }
