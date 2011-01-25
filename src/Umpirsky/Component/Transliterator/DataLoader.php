@@ -15,59 +15,64 @@ namespace Umpirsky\Component\Transliterator;
  * Loads transliteration maps from files.
  *
  * @author Saša Stamenković <umpirsky@gmail.com>
- * @package Transliterator
+ *
+ * @todo allow custom mapping paths
  */
 class DataLoader {
 	/**
 	 * Cyrillic alphabet ID
 	 */
 	const ALPHABET_CYR = 'cyr';
-	
+
 	/**
 	 * Latin alphabet ID
 	 */
 	const ALPHABET_LAT = 'lat';
-	
+
 	/**
 	 * Mappings cache.
 	 *
 	 * @var array
 	 */
 	protected $mappingCache;
-	
+
 	/**
      * DataLoader constructor.
      */
     public function __construct() {
-    	$this->mappingCache = array();    	
+    	$this->mappingCache = array();
     }
-	
+
     /**
      * Get transliteration map.
      *
-     * @param string $lang ISO 639-1 language code
+     * @param Transliterator $transliterator
      * @param string $alphabet
      * @return  array   map array
      */
-    public function getTransliterationMap($lang, $alphabet) {
+    public function getTransliterationMap(Transliterator $transliterator, $alphabet) {
         if (!in_array($alphabet, array(self::ALPHABET_CYR, self::ALPHABET_LAT))) {
             throw new \InvalidArgumentException(sprintf('Alphabet "%s" is not recognized.', $alphabet));
         }
-    	
-    	if (isset($this->mappingCache[$lang]) && isset($this->mappingCache[$lang][$alphabet])) {
-    		return $this->mappingCache[$lang][$alphabet];
+
+        $mappingCacheId = sprintf('%s_%s', $transliterator->getLang(), $transliterator->getSystem());
+    	if (isset($this->mappingCache[$mappingCacheId]) && isset($this->mappingCache[$mappingCacheId][$alphabet])) {
+    		return $this->mappingCache[$mappingCacheId][$alphabet];
     	}
-    	
-        $path = sprintf('%s/data/%s/map.php', __DIR__, $lang);
+
+        $path = sprintf('%s/data/%s/%s.php', __DIR__, $transliterator->getLang(), $transliterator->getSystem());
         if (!file_exists($path)) {
             throw new \Exception(sprintf('Map file "%s" does not exist.', $path));
         }
 
-        $this->mappingCache[$lang] = require($path);
-        if (!is_array($this->mappingCache[$lang]) || !is_array($this->mappingCache[$lang][self::ALPHABET_CYR]) || !is_array($this->mappingCache[$lang][self::ALPHABET_LAT])) {
+        $this->mappingCache[$mappingCacheId] = require($path);
+        if (!is_array($this->mappingCache[$mappingCacheId])
+        	|| !is_array($this->mappingCache[$mappingCacheId][self::ALPHABET_CYR])
+        	|| !is_array($this->mappingCache[$mappingCacheId][self::ALPHABET_LAT])
+        ) {
             throw new \Exception(sprintf('Map file "%s" is not valid, should return an array with %s and %s subarrays.', $path, self::ALPHABET_CYR, self::ALPHABET_LAT));
         }
 
-        return $this->mappingCache[$lang][$alphabet];
+        return $this->mappingCache[$mappingCacheId][$alphabet];
     }
 }
