@@ -28,33 +28,9 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
      */
 	protected static $transliteratorRu;
 
-	/**
-     * Ru Transliterator (GOST 1971 system).
-     *
-     * @var Transliterator
-     */
-	protected static $transliteratorRuGOST1971;
-
-	/**
-     * Ru Transliterator (UN; GOST 1983 system).
-     *
-     * @var Transliterator
-     */
-	protected static $transliteratorRuGOST1983;
-
-	/**
-     * Ru Transliterator (ISO/R 9:1968 system).
-     *
-     * @var Transliterator
-     */
-	protected static $transliteratorRuISOR91968;
-
 	public static function setUpBeforeClass() {
 		self::$transliteratorSr = new Transliterator(Transliterator::LANG_SR);
 		self::$transliteratorRu = new Transliterator(Transliterator::LANG_RU);
-		self::$transliteratorRuGOST1971 = new Transliterator(Transliterator::LANG_RU, Transliterator::TRANS_RU_GOST_1971);
-		self::$transliteratorRuISOR91968 = new Transliterator(Transliterator::LANG_RU, Transliterator::TRANS_RU_ISO_R_9_1968);
-		self::$transliteratorRuGOST1983 = new Transliterator(Transliterator::LANG_RU, Transliterator::TRANS_RU_GOST_1983);
 	}
 
 	/**
@@ -82,28 +58,28 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
      * @dataProvider testRussianProvider
      */
 	public function testRussian($expected, $actual, $direction) {
-        $this->assertEquals($expected, self::$transliteratorRu->transliterate($actual, $direction));
+        $this->assertEquals($expected, self::$transliteratorRu->setSystem(Transliterator::SYSTEM_DEFAULT)->transliterate($actual, $direction));
 	}
 
 	/**
      * @dataProvider testRussianGOST1971Provider
      */
 	public function testRussianGOST1971($expected, $actual, $direction) {
-        $this->assertEquals($expected, self::$transliteratorRuGOST1971->transliterate($actual, $direction));
+        $this->assertEquals($expected, self::$transliteratorRu->setSystem(Transliterator::SYSTEM_RU_GOST_1971)->transliterate($actual, $direction), sprintf('Used maps: %s %s %s', var_export(self::$transliteratorRu->getCyrMap(), true), PHP_EOL, var_export(self::$transliteratorRu->getLatMap(), true)));
 	}
 
 	/**
      * @dataProvider testRussianISOR91968Provider
      */
 	public function testRussianISOR91968($expected, $actual, $direction) {
-        $this->assertEquals($expected, self::$transliteratorRuISOR91968->transliterate($actual, $direction));
+        $this->assertEquals($expected, self::$transliteratorRu->setSystem(Transliterator::SYSTEM_RU_ISO_R_9_1968)->transliterate($actual, $direction));
 	}
 
 	/**
      * @dataProvider testRussianGOST1983Provider
      */
 	public function testRussianGOST1983($expected, $actual, $direction) {
-        $this->assertEquals($expected, self::$transliteratorRuGOST1983->transliterate($actual, $direction));
+        $this->assertEquals($expected, self::$transliteratorRu->setSystem(Transliterator::SYSTEM_RU_GOST_1983)->transliterate($actual, $direction));
 	}
 
     public static function testSerbianProvider() {

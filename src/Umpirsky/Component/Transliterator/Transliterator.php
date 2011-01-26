@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use Umpirsky\Component\Transliterator\Transliterator;
 namespace Umpirsky\Component\Transliterator;
 
 /**
@@ -36,10 +37,15 @@ class Transliterator {
 	/**
 	 * Supported transliteration systems.
 	 */
-	const TRANS_RU_GOST_1971 = 'GOST_1971';
-	const TRANS_RU_ISO_R_9_1968 = 'ISO_R_9_1968';
-	const TRANS_RU_GOST_1983 = 'GOST_1983';
-	const TRANS_DEFAULT = 'default';
+	const SYSTEM_RU_ISO_R_9_1968 = 'ISO_R_9_1968';
+	const SYSTEM_RU_GOST_1971 = 'GOST_1971';
+	const SYSTEM_RU_GOST_1983 = 'GOST_1983';
+	const SYSTEM_RU_GOST_2002 = 'GOST_2002';
+	const SYSTEM_RU_ALA_LC = 'ALA_LC';
+	const SYSTEM_RU_British_Standard = 'British_Standard';
+	const SYSTEM_RU_BGN_PCGN = 'BGN_PCGN';
+	const SYSTEM_RU_Passport_2003 = 'Passport_2003';
+	const SYSTEM_DEFAULT = 'default';
 
 	/**
 	 * ISO 639-1 language code.
@@ -90,11 +96,22 @@ class Transliterator {
 	 * @param string $system transliteration system
 	 * @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 	 */
-	public function __construct($lang, $system = self::TRANS_DEFAULT) {
+	public function __construct($lang, $system = self::SYSTEM_DEFAULT) {
 		$this->setLang($lang)
 		  ->setSystem($system)
 		  ->setMapBasePath(__DIR__)
 		  ->dataLoader = new DataLoader();
+	}
+
+	/**
+	 * Clear char maps.
+	 *
+	 * @return Transliterator fluent interface
+	 */
+	public function clearCharMaps() {
+		$this->cyrMap = $this->latMap = null;
+
+		return $this;
 	}
 
 	/**
@@ -122,22 +139,22 @@ class Transliterator {
 			throw new \InvalidArgumentException(sprintf('Language "%s" is not supported.', $lang));
 		}
 
-		$this->lang = $lang;
+		$this->clearCharMaps()->lang = $lang;
 
 		return $this;
 	}
 
 	/**
-	 * Get trnaliteration system.
+	 * Get transliteration system.
 	 *
-	 * @return string current trnaliteration system
+	 * @return string current transliteration system
 	 */
 	public function getSystem() {
 		return $this->system;
 	}
 
 	/**
-	 * Set trnaliteration system.
+	 * Set transliteration system.
 	 *
 	 * @param string $system transliteration system
 	 * @return Transliterator fluent interface
@@ -149,7 +166,7 @@ class Transliterator {
 			);
 		}
 
-		$this->system = $system;
+		$this->clearCharMaps()->system = $system;
 
 		return $this;
 	}
@@ -164,19 +181,24 @@ class Transliterator {
 	}
 
 	/**
-	 * Get suported trnaliteration systems for current language.
+	 * Get suported transliteration systems for current language.
 	 *
-	 * @return array of supported trnaliteration systems
+	 * @return array of supported transliteration systems
 	 */
 	public function getSupportedTranliterationSystems() {
-		$default = array(self::TRANS_DEFAULT);
+		$default = array(self::SYSTEM_DEFAULT);
 
 		switch ($this->getLang()) {
 			case self::LANG_RU:
 				return array_merge($default, array(
-					self::TRANS_RU_GOST_1971,
-					self::TRANS_RU_ISO_R_9_1968,
-					self::TRANS_RU_GOST_1983
+					self::SYSTEM_RU_ISO_R_9_1968,
+					self::SYSTEM_RU_GOST_1971,
+					self::SYSTEM_RU_GOST_1983,
+					self::SYSTEM_RU_GOST_2002,
+					self::SYSTEM_RU_ALA_LC,
+					self::SYSTEM_RU_British_Standard,
+					self::SYSTEM_RU_BGN_PCGN,
+					self::SYSTEM_RU_Passport_2003
 				));
 			break;
 		}
