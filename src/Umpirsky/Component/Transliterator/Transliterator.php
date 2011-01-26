@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-use Umpirsky\Component\Transliterator\Transliterator;
 namespace Umpirsky\Component\Transliterator;
 
 /**
@@ -162,7 +161,10 @@ class Transliterator {
 	public function setSystem($system) {
 		if (!in_array($system, $this->getSupportedTranliterationSystems())) {
 			throw new \InvalidArgumentException(
-				sprintf('Transliteration system "%s" is not supported for "%s" language.', $system, $this->getLang())
+				sprintf('Transliteration system "%s" is not supported for "%s" language.',
+					$system,
+					$this->getLang()
+				)
 			);
 		}
 
@@ -249,7 +251,7 @@ class Transliterator {
 	 */
 	public function getCyrMap() {
 		if (null === $this->cyrMap) {
-			$this->cyrMap = $this->dataLoader->getTransliterationMap($this, DataLoader::ALPHABET_CYR);
+			$this->cyrMap = $this->getTransliterationMap(DataLoader::ALPHABET_CYR);
 		}
 
 		return $this->cyrMap;
@@ -262,10 +264,25 @@ class Transliterator {
 	 */
 	public function getLatMap() {
 		if (null === $this->latMap) {
-			$this->latMap = $this->dataLoader->getTransliterationMap($this, DataLoader::ALPHABET_LAT);
+			$this->latMap = $this->getTransliterationMap(DataLoader::ALPHABET_LAT);
 		}
 
 		return $this->latMap;
+	}
+
+	/**
+	 * Get trasnsliteration char map.
+	 *
+	 ** @param string $alphabet
+	 * @return array trasnsliteration map
+	 */
+	protected function getTransliterationMap($alphabet) {
+		return $this->dataLoader->getTransliterationMap(
+			$this->getMapBasePath(),
+			$this->getLang(),
+			$this->getSystem(),
+			$alphabet
+		);
 	}
 
 	/**

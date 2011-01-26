@@ -44,21 +44,23 @@ class DataLoader {
     /**
      * Get transliteration map.
      *
-     * @param Transliterator $transliterator
+     * @param string $basePath map files base path
+     * @param string $lang language
+     * @param string $system transliteration system
      * @param string $alphabet
      * @return  array   map array
      */
-    public function getTransliterationMap(Transliterator $transliterator, $alphabet) {
+    public function getTransliterationMap($basePath, $lang, $system, $alphabet) {
         if (!in_array($alphabet, array(self::ALPHABET_CYR, self::ALPHABET_LAT))) {
             throw new \InvalidArgumentException(sprintf('Alphabet "%s" is not recognized.', $alphabet));
         }
 
-        $mappingCacheId = sprintf('%s_%s', $transliterator->getLang(), $transliterator->getSystem());
+        $mappingCacheId = sprintf('%s_%s', $lang, $system);
     	if (isset($this->mappingCache[$mappingCacheId]) && isset($this->mappingCache[$mappingCacheId][$alphabet])) {
     		return $this->mappingCache[$mappingCacheId][$alphabet];
     	}
 
-        $path = sprintf('%s/data/%s/%s.php', $transliterator->getMapBasePath(), $transliterator->getLang(), $transliterator->getSystem());
+        $path = sprintf('%s/data/%s/%s.php', $basePath, $lang, $system);
         if (!file_exists($path)) {
             throw new \Exception(sprintf('Map file "%s" does not exist.', $path));
         }
