@@ -36,6 +36,13 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
 	protected static $transliteratorRuGOST1971;
 
 	/**
+     * Ru Transliterator (UN; GOST 1983 system).
+     *
+     * @var Transliterator
+     */
+	protected static $transliteratorRuGOST1983;
+
+	/**
      * Ru Transliterator (ISO/R 9:1968 system).
      *
      * @var Transliterator
@@ -47,15 +54,16 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
 		self::$transliteratorRu = new Transliterator(Transliterator::LANG_RU);
 		self::$transliteratorRuGOST1971 = new Transliterator(Transliterator::LANG_RU, Transliterator::TRANS_RU_GOST_1971);
 		self::$transliteratorRuISOR91968 = new Transliterator(Transliterator::LANG_RU, Transliterator::TRANS_RU_ISO_R_9_1968);
+		self::$transliteratorRuGOST1983 = new Transliterator(Transliterator::LANG_RU, Transliterator::TRANS_RU_GOST_1983);
 	}
-	
+
 	/**
      * @expectedException InvalidArgumentException
      */
     public function testWrongLanguage() {
     	$transliterator = new Transliterator('xx');
     }
-    
+
     /**
      * @expectedException InvalidArgumentException
      */
@@ -91,6 +99,13 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, self::$transliteratorRuISOR91968->transliterate($actual, $direction));
 	}
 
+	/**
+     * @dataProvider testRussianGOST1983Provider
+     */
+	public function testRussianGOST1983($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorRuGOST1983->transliterate($actual, $direction));
+	}
+
     public static function testSerbianProvider() {
         return array(
             array('Ниш', 'Niš', false),
@@ -112,6 +127,8 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
             array('Ju ju', 'Ю ю', true),
             array('Ja ja', 'Я я', true),
             array('Transliteracija russkogo alfavita latinicej', 'Транслитерация русского алфавита латиницей', true),
+            array('Э э', 'È è', false),
+           	array('È è', 'Э э', true)
     	);
     }
 
@@ -125,8 +142,18 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
     public static function testRussianISOR91968Provider() {
         return array(
             array('Ю ю', 'Ju ju', false),
-           	array('Я я', 'Ja ja', false)
+           	array('Я я', 'Ja ja', false),
+           	array('Э э', 'Ė ė', false),
+           	array('Ė ė', 'Э э', true)
     	);
     }
 
+    public static function testRussianGOST1983Provider() {
+        return array(
+            array('Ю ю', 'Ju ju', false),
+           	array('Я я', 'Ja ja', false),
+           	array('Э э', 'È è', false),
+           	array('È è', 'Э э', true)
+    	);
+    }
 }

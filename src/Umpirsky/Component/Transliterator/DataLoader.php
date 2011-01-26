@@ -15,8 +15,6 @@ namespace Umpirsky\Component\Transliterator;
  * Loads transliteration maps from files.
  *
  * @author Saša Stamenković <umpirsky@gmail.com>
- *
- * @todo allow custom mapping paths
  */
 class DataLoader {
 	/**

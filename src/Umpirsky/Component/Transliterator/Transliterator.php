@@ -25,8 +25,6 @@ namespace Umpirsky\Component\Transliterator;
  *     $transliterator->lat2Cyr('Niš'); // Ниш
  *
  * @author Saša Stamenković <umpirsky@gmail.com>
- *
- * @todo Allow custom char map setting
  */
 class Transliterator {
 	/**
@@ -40,6 +38,7 @@ class Transliterator {
 	 */
 	const TRANS_RU_GOST_1971 = 'GOST_1971';
 	const TRANS_RU_ISO_R_9_1968 = 'ISO_R_9_1968';
+	const TRANS_RU_GOST_1983 = 'GOST_1983';
 	const TRANS_DEFAULT = 'default';
 
 	/**
@@ -62,21 +61,21 @@ class Transliterator {
 	 * @var DataLoader
 	 */
 	protected $dataLoader;
-	
+
 	/**
 	 * Cyrillic mapping.
 	 *
 	 * @var array
 	 */
 	protected $cyrMap;
-	
+
 	/**
 	 * Latin mapping.
 	 *
 	 * @var array
 	 */
 	protected $latMap;
-	
+
 	/**
 	 * Path to map files.
 	 *
@@ -124,7 +123,7 @@ class Transliterator {
 		}
 
 		$this->lang = $lang;
-		
+
 		return $this;
 	}
 
@@ -151,7 +150,7 @@ class Transliterator {
 		}
 
 		$this->system = $system;
-		
+
 		return $this;
 	}
 
@@ -176,7 +175,8 @@ class Transliterator {
 			case self::LANG_RU:
 				return array_merge($default, array(
 					self::TRANS_RU_GOST_1971,
-					self::TRANS_RU_ISO_R_9_1968
+					self::TRANS_RU_ISO_R_9_1968,
+					self::TRANS_RU_GOST_1983
 				));
 			break;
 		}
@@ -229,7 +229,7 @@ class Transliterator {
 		if (null === $this->cyrMap) {
 			$this->cyrMap = $this->dataLoader->getTransliterationMap($this, DataLoader::ALPHABET_CYR);
 		}
-		
+
 		return $this->cyrMap;
 	}
 
@@ -242,10 +242,10 @@ class Transliterator {
 		if (null === $this->latMap) {
 			$this->latMap = $this->dataLoader->getTransliterationMap($this, DataLoader::ALPHABET_LAT);
 		}
-		
+
 		return $this->latMap;
 	}
-	
+
 	/**
      * Set cyrillic char map.
      *
@@ -254,10 +254,10 @@ class Transliterator {
      */
     public function setCyrMap(array $cyrMap) {
     	$this->cyrMap = $cyrMap;
-    	
+
     	return $this;
     }
-	
+
 	/**
      * Set latin char map.
      *
@@ -266,10 +266,10 @@ class Transliterator {
      */
     public function setLatMap(array $latMap) {
     	$this->latMap = $latMap;
-    	
+
     	return $this;
     }
-    
+
     /**
      * Set path to map files.
      *
@@ -278,10 +278,10 @@ class Transliterator {
      */
     public function setMapBasePath($mapBasePath) {
         $this->mapBasePath = $mapBasePath;
-        
+
         return $this;
     }
-    
+
     /**
      * Get path to map files.
      *
