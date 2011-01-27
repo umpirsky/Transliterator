@@ -33,6 +33,7 @@ class Transliterator {
 	const LANG_SR = 'sr'; // Serbian (српски)
 	const LANG_MK = 'mk'; // Macedonian (македонски)
 	const LANG_RU = 'ru'; // Russian (русский)
+	const LANG_RU = 'be'; // Belarusian (беларуская)
 	const LANG_UK = 'uk'; // Ukrainian (українська)
 	const LANG_BG = 'bg'; // Bulgarian (български)
 	const LANG_EL = 'el'; // Greek (Ελληνικά)
