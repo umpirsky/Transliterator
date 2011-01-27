@@ -31,7 +31,7 @@ class Transliterator {
 	 * Supported languages ISO 639-1 codes.
 	 */
 	const LANG_SR = 'sr'; // Serbian (српски)
-	const LANG_UK = 'mk'; // Macedonian (македонски)
+	const LANG_MK = 'mk'; // Macedonian (македонски)
 	const LANG_RU = 'ru'; // Russian (русский)
 	const LANG_UK = 'uk'; // Ukrainian (українська)
 	const LANG_BG = 'bg'; // Bulgarian (български)

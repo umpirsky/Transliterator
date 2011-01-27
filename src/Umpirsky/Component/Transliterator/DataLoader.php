@@ -51,28 +51,93 @@ class DataLoader {
      * @return  array   map array
      */
     public function getTransliterationMap($basePath, $lang, $system, $alphabet) {
+    	// Valdate
         if (!in_array($alphabet, array(self::ALPHABET_CYR, self::ALPHABET_LAT))) {
             throw new \InvalidArgumentException(sprintf('Alphabet "%s" is not recognized.', $alphabet));
         }
 
-        $mappingCacheId = sprintf('%s_%s', $lang, $system);
-    	if (isset($this->mappingCache[$mappingCacheId]) && isset($this->mappingCache[$mappingCacheId][$alphabet])) {
-    		return $this->mappingCache[$mappingCacheId][$alphabet];
+        // Load form cache
+    	$map = $this->loadFromCache($lang, $system, $alphabet);
+    	if (null !== $map) {
+    		return $map;
     	}
 
-        $path = sprintf('%s/data/%s/%s.php', $basePath, $lang, $system);
+    	// Load from files
+        $map = $this->loadFromFiles($basePath, $lang, $system);
+
+        // Store to cache
+        $this->storeToCache($lang, $system, $map);
+
+        return $this->loadFromCache($lang, $system, $alphabet);
+    }
+
+    /**
+     * Load map from files.
+     *
+     * @param string $basePath map files base path
+     * @param string $lang language
+     * @param string $system transliteration system
+     * @return  array   map array
+     */
+    protected function loadFromFiles($basePath, $lang, $system) {
+     	$path = sprintf('%s/data/%s/%s.php', $basePath, $lang, $system);
         if (!file_exists($path)) {
             throw new \Exception(sprintf('Map file "%s" does not exist.', $path));
         }
 
-        $this->mappingCache[$mappingCacheId] = require($path);
-        if (!is_array($this->mappingCache[$mappingCacheId])
-        	|| !is_array($this->mappingCache[$mappingCacheId][self::ALPHABET_CYR])
-        	|| !is_array($this->mappingCache[$mappingCacheId][self::ALPHABET_LAT])
+        $map = require($path);
+        if (!is_array($map)
+        	|| !is_array($map[self::ALPHABET_CYR])
+        	|| !is_array($map[self::ALPHABET_LAT])
         ) {
-            throw new \Exception(sprintf('Map file "%s" is not valid, should return an array with %s and %s subarrays.', $path, self::ALPHABET_CYR, self::ALPHABET_LAT));
+            throw new \Exception(sprintf(
+            	'Map file "%s" is not valid, should return an array with %s and %s subarrays.',
+            	$path,
+            	self::ALPHABET_CYR,
+            	self::ALPHABET_LAT
+            ));
         }
 
-        return $this->mappingCache[$mappingCacheId][$alphabet];
+        return $map;
+    }
+
+    /**
+     * Load map from cache.
+     *
+     * @param string $lang language
+     * @param string $system transliteration system
+     * @param string $alphabet
+     * @return array|null char map, null if not found
+     */
+    protected function loadFromCache($lang, $system, $alphabet) {
+    	$mappingCacheId = $this->getCacheId($lang, $system);
+    	if (isset($this->mappingCache[$mappingCacheId]) && isset($this->mappingCache[$mappingCacheId][$alphabet])) {
+    		return $this->mappingCache[$mappingCacheId][$alphabet];
+    	}
+
+    	return null;
+    }
+
+    /**
+     * Store map to cache.
+     *
+     * @param string $lang language
+     * @param string $system transliteration system
+     * @param array char map
+     */
+    protected function storeToCache($lang, $system, $map) {
+    	$mappingCacheId = $this->getCacheId($lang, $system);
+    	$this->mappingCache[$mappingCacheId] = $map;
+    }
+
+    /**
+     * Generate cache ID.
+     *
+     * @param string $lang language
+     * @param string $system transliteration system
+     * @return string cache ID
+     */
+    protected function getCacheId($lang, $system) {
+    	return sprintf('%s_%s', $lang, $system);
     }
 }
