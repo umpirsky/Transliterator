@@ -18,11 +18,11 @@ namespace Umpirsky\Component\Transliterator;
  * Usage:
  *
  *     $transliterator = new Transliterator(Transliterator::LANG_RU);
- *     $transliterator->cyr2Lat('Русский'); // Russkij
- *     $transliterator->lat2Cyr('Russkij'); // Русский
+ *     $transliterator->cyr2Lat('Русский'); // returns 'Russkij'
+ *     $transliterator->lat2Cyr('Russkij'); // returns 'Русский'
  *     $transliterator->setLang(Transliterator::LANG_SR);
- *     $transliterator->cyr2Lat('Ниш'); // Niš
- *     $transliterator->lat2Cyr('Niš'); // Ниш
+ *     $transliterator->cyr2Lat('Ниш'); // returns 'Niš'
+ *     $transliterator->lat2Cyr('Niš'); // returns 'Ниш'
  *
  * @author Saša Stamenković <umpirsky@gmail.com>
  */
@@ -30,8 +30,12 @@ class Transliterator {
 	/**
 	 * Supported languages ISO 639-1 codes.
 	 */
-	const LANG_SR = 'sr';
-	const LANG_RU = 'ru';
+	const LANG_SR = 'sr'; // Serbian (српски)
+	const LANG_UK = 'mk'; // Macedonian (македонски)
+	const LANG_RU = 'ru'; // Russian (русский)
+	const LANG_UK = 'uk'; // Ukrainian (українська)
+	const LANG_BG = 'bg'; // Bulgarian (български)
+	const LANG_EL = 'el'; // Greek (Ελληνικά)
 
 	/**
 	 * Supported transliteration systems.

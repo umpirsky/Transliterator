@@ -15,6 +15,13 @@ use Umpirsky\Component\Transliterator\Transliterator;
 
 class TranslatorTest extends \PHPUnit_Framework_TestCase {
 	/**
+	 * Transliterator.
+	 *
+	 * @var Transliterator
+	 */
+	protected static $transliterator;
+
+	/**
 	 * Sr Transliterator.
 	 *
 	 * @var Transliterator
@@ -29,6 +36,7 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
 	protected static $transliteratorRu;
 
 	public static function setUpBeforeClass() {
+		self::$transliterator = new Transliterator(Transliterator::LANG_SR);
 		self::$transliteratorSr = new Transliterator(Transliterator::LANG_SR);
 		self::$transliteratorRu = new Transliterator(Transliterator::LANG_RU);
 	}
@@ -46,6 +54,16 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
     public function testWrongSystem() {
         $transliterator = new Transliterator(Transliterator::LANG_SR, 'xxx');
     }
+
+	public function testCustomMap() {
+        $this->assertEquals(
+        	'џАРрХ',
+        	self::$transliterator
+        		->setCyrMap(array('џ', 'А', 'Р', 'р', 'Х'))
+        		->setLatMap(array('u', 'A', 'P', 'p', 'X'))
+        		->lat2Cyr('uAPpX')
+        );
+	}
 
     /**
      * @dataProvider testSerbianProvider
