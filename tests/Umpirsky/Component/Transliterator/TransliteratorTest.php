@@ -35,10 +35,18 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
      */
 	protected static $transliteratorRu;
 
+	/**
+     * Be Transliterator.
+     *
+     * @var Transliterator
+     */
+	protected static $transliteratorBe;
+
 	public static function setUpBeforeClass() {
 		self::$transliterator = new Transliterator(Transliterator::LANG_SR);
 		self::$transliteratorSr = new Transliterator(Transliterator::LANG_SR);
 		self::$transliteratorRu = new Transliterator(Transliterator::LANG_RU);
+		self::$transliteratorBe = new Transliterator(Transliterator::LANG_BE);
 	}
 
 	/**
@@ -228,6 +236,76 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
            	array('Я я', 'Ya ya', false),
            	array('Э э', 'E e', false),
            	array('E e', 'Э э', true)
+    	);
+    }
+
+	/**
+     * @dataProvider testBelarusianProvider
+     */
+	public function testBelarusian($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorBe->setSystem(Transliterator::SYSTEM_DEFAULT)->transliterate($actual, $direction));
+	}
+
+	public static function testBelarusianProvider() {
+        return array(
+            array('д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', 'd  dž  dz  e  ë  ž  z  i  j  k  l  m  n  o  p  r  s  t  u  ŭ  f  x  c  č  š', false),
+	        array('d  dž  dz  e  ë  ž  z  i  j  k  l  m  n  o  p  r  s  t  u  ŭ  f  x  c  č  š', 'д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', true)
+    	);
+    }
+
+	/**
+     * @dataProvider testBelarusianALALCProvider
+     */
+	public function testBelarusianALALC($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorBe->setSystem(Transliterator::SYSTEM_BE_ALA_LC)->transliterate($actual, $direction));
+	}
+
+	public static function testBelarusianALALCProvider() {
+		return array(
+            array('д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', 'd  dz͡h  dz  e  i͡o  z͡h  z  i  ĭ  k  l  m  n  o  p  r  s  t  u  ŭ  f  kh  ts  ch  sh', false),
+            array('d  dz͡h  dz  e  i͡o  z͡h  z  i  ĭ  k  l  m  n  o  p  r  s  t  u  ŭ  f  kh  ts  ch  sh', 'д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', true)
+    	);
+    }
+
+	/**
+     * @dataProvider testBelarusianBGNPCGNProvider
+     */
+	public function testBelarusianBGNPCGN($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorBe->setSystem(Transliterator::SYSTEM_BE_BGN_PCGN)->transliterate($actual, $direction));
+	}
+
+	public static function testBelarusianBGNPCGNProvider() {
+		return array(
+            array('д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', 'd  dzh  dz  ye  yo  zh  z  i  y  k  l  m  n  o  p  r  s  t  u  w  f  kh  ts  ch  sh', false),
+            array('d  dzh  dz  ye  yo  zh  z  i  y  k  l  m  n  o  p  r  s  t  u  w  f  kh  ts  ch  sh', 'д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', true)
+    	);
+    }
+
+	/**
+     * @dataProvider testBelarusianISO9Provider
+     */
+	public function testBelarusianISO9($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorBe->setSystem(Transliterator::SYSTEM_BE_ISO_9)->transliterate($actual, $direction));
+	}
+
+	public static function testBelarusianISO9Provider() {
+		return array(
+            array('д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', 'd  dž  dz  e  ë  ž  z  ì  j  k  l  m  n  o  p  r  s  t  u  ǔ  f  h  c  č  š', false),
+            array('d  dž  dz  e  ë  ž  z  ì  j  k  l  m  n  o  p  r  s  t  u  ǔ  f  h  c  č  š', 'д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', true)
+    	);
+    }
+
+	/**
+     * @dataProvider testBelarusianNational2000Provider
+     */
+	public function testBelarusianNational2000($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorBe->setSystem(Transliterator::SYSTEM_BE_National_2000)->transliterate($actual, $direction));
+	}
+
+	public static function testBelarusianNational2000Provider() {
+		return array(
+            array('д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', 'd  dž  dz  ie  io  ž  z  i  j  k  l  m  n  o  p  r  s  t  u  ú  f  ch  c  č  š', false),
+            array('d  dž  dz  ie  io  ž  z  i  j  k  l  m  n  o  p  r  s  t  u  ú  f  ch  c  č  š', 'д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', true)
     	);
     }
 }

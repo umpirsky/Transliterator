@@ -33,7 +33,7 @@ class Transliterator {
 	const LANG_SR = 'sr'; // Serbian (српски)
 	const LANG_MK = 'mk'; // Macedonian (македонски)
 	const LANG_RU = 'ru'; // Russian (русский)
-	const LANG_RU = 'be'; // Belarusian (беларуская)
+	const LANG_BE = 'be'; // Belarusian (беларуская)
 	const LANG_UK = 'uk'; // Ukrainian (українська)
 	const LANG_BG = 'bg'; // Bulgarian (български)
 	const LANG_EL = 'el'; // Greek (Ελληνικά)
@@ -41,6 +41,7 @@ class Transliterator {
 	/**
 	 * Supported transliteration systems.
 	 */
+	const SYSTEM_DEFAULT = 'default';
 	const SYSTEM_RU_ISO_R_9_1968 = 'ISO_R_9_1968';
 	const SYSTEM_RU_GOST_1971 = 'GOST_1971';
 	const SYSTEM_RU_GOST_1983 = 'GOST_1983';
@@ -49,7 +50,10 @@ class Transliterator {
 	const SYSTEM_RU_British_Standard = 'British_Standard';
 	const SYSTEM_RU_BGN_PCGN = 'BGN_PCGN';
 	const SYSTEM_RU_Passport_2003 = 'Passport_2003';
-	const SYSTEM_DEFAULT = 'default';
+	const SYSTEM_BE_ALA_LC = 'ALA_LC';
+	const SYSTEM_BE_BGN_PCGN = 'BGN_PCGN';
+	const SYSTEM_BE_ISO_9 = 'ISO_9';
+	const SYSTEM_BE_National_2000 = 'National_2000';
 
 	/**
 	 * ISO 639-1 language code.
@@ -184,7 +188,11 @@ class Transliterator {
 	 * @return array of supported languages
 	 */
 	public function getSupportedLanguages() {
-		return array(self::LANG_SR, self::LANG_RU);
+		return array(
+			self::LANG_SR,
+			self::LANG_RU,
+			self::LANG_BE
+		);
 	}
 
 	/**
@@ -206,6 +214,14 @@ class Transliterator {
 					self::SYSTEM_RU_British_Standard,
 					self::SYSTEM_RU_BGN_PCGN,
 					self::SYSTEM_RU_Passport_2003
+				));
+			break;
+			case self::LANG_BE:
+				return array_merge($default, array(
+					self::SYSTEM_BE_ALA_LC,
+					self::SYSTEM_BE_BGN_PCGN,
+					self::SYSTEM_BE_ISO_9,
+					self::SYSTEM_BE_National_2000
 				));
 			break;
 		}
