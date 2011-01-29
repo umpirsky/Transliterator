@@ -25,6 +25,7 @@ namespace Umpirsky\Component\Transliterator;
  *     $transliterator->lat2Cyr('Niš'); // returns 'Ниш'
  *
  * @author Saša Stamenković <umpirsky@gmail.com>
+ * @see http://en.wikipedia.org/wiki/Transliteration
  */
 class Transliterator {
 	/**
