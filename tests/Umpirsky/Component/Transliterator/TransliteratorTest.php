@@ -42,11 +42,19 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
      */
 	protected static $transliteratorBe;
 
+	/**
+     * Mk Transliterator.
+     *
+     * @var Transliterator
+     */
+	protected static $transliteratorMk;
+
 	public static function setUpBeforeClass() {
 		self::$transliterator = new Transliterator(Transliterator::LANG_SR);
 		self::$transliteratorSr = new Transliterator(Transliterator::LANG_SR);
 		self::$transliteratorRu = new Transliterator(Transliterator::LANG_RU);
 		self::$transliteratorBe = new Transliterator(Transliterator::LANG_BE);
+		self::$transliteratorMk = new Transliterator(Transliterator::LANG_MK);
 	}
 
 	/**
@@ -306,6 +314,76 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
 		return array(
             array('д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', 'd  dž  dz  ie  io  ž  z  i  j  k  l  m  n  o  p  r  s  t  u  ú  f  ch  c  č  š', false),
             array('d  dž  dz  ie  io  ž  z  i  j  k  l  m  n  o  p  r  s  t  u  ú  f  ch  c  č  š', 'д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', true)
+    	);
+    }
+
+	/**
+     * @dataProvider testMacedonianProvider
+     */
+	public function testMacedonian($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorMk->setSystem(Transliterator::SYSTEM_DEFAULT)->transliterate($actual, $direction));
+	}
+
+	public static function testMacedonianProvider() {
+		return array(
+            array('а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', 'a b v g d gj e zh z dz i j k l lj m n nj o p r s t kj u f h c ch dj sh', false),
+            array('a b v g d gj e zh z dz i j k l lj m n nj o p r s t kj u f h c ch dj sh', 'а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', true)
+    	);
+    }
+
+	/**
+     * @dataProvider testMacedonianISO91995Provider
+     */
+	public function testMacedonianISO91995($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorMk->setSystem(Transliterator::SYSTEM_MK_ISO_9_1995)->transliterate($actual, $direction));
+	}
+
+	public static function testMacedonianISO91995Provider() {
+		return array(
+            array('а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', 'a b v g d ǵ e ž z ẑ i ǰ k l l̂ m n n̂ o p r s t ḱ u f h c č d̂ š', false),
+            array('a b v g d ǵ e ž z ẑ i ǰ k l l̂ m n n̂ o p r s t ḱ u f h c č d̂ š', 'а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', true)
+    	);
+    }
+
+	/**
+     * @dataProvider testMacedonianBGNPCGNProvider
+     */
+	public function testMacedonianBGNPCGN($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorMk->setSystem(Transliterator::SYSTEM_MK_BGN_PCGN)->transliterate($actual, $direction));
+	}
+
+	public static function testMacedonianBGNPCGNProvider() {
+		return array(
+            array('а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', 'a b v g d đ e ž z dz i j k l lj m n nj o p r s t ć u f h c č dž š', false),
+            array('a b v g d đ e ž z dz i j k l lj m n nj o p r s t ć u f h c č dž š', 'а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', true)
+    	);
+    }
+
+	/**
+     * @dataProvider testMacedonianISO9R1968NationalAcademyProvider
+     */
+	public function testMacedonianISO9R1968NationalAcademy($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorMk->setSystem(Transliterator::SYSTEM_MK_ISO_9_R_1968_National_Academy)->transliterate($actual, $direction));
+	}
+
+	public static function testMacedonianISO9R1968NationalAcademyProvider() {
+		return array(
+            array('а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', 'a b v g d ǵ e ž z dz i j k l lj m n nj o p r s t ḱ u f h c č dž š', false),
+            array('a b v g d ǵ e ž z dz i j k l lj m n nj o p r s t ḱ u f h c č dž š', 'а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', true)
+    	);
+    }
+
+	/**
+     * @dataProvider testMacedonianISO9R1968bProvider
+     */
+	public function testMacedonianISO9R1968b($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorMk->setSystem(Transliterator::SYSTEM_MK_ISO_9_R_1968_b)->transliterate($actual, $direction));
+	}
+
+	public static function testMacedonianISO9R1968bProvider() {
+		return array(
+            array('а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', 'a b v g d ǵ e zh z dz i j k l lj m n nj o p r s t ḱ u f kh ts ch dž sh', false),
+            array('a b v g d ǵ e zh z dz i j k l lj m n nj o p r s t ḱ u f kh ts ch dž sh', 'а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', true)
     	);
     }
 }
