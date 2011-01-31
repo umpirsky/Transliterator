@@ -17,28 +17,28 @@ namespace Umpirsky\Component\Transliterator;
  * @author Saša Stamenković <umpirsky@gmail.com>
  */
 class DataLoader {
-	/**
-	 * Cyrillic alphabet ID
-	 */
-	const ALPHABET_CYR = 'cyr';
+    /**
+     * Cyrillic alphabet ID
+     */
+    const ALPHABET_CYR = 'cyr';
 
-	/**
-	 * Latin alphabet ID
-	 */
-	const ALPHABET_LAT = 'lat';
+    /**
+     * Latin alphabet ID
+     */
+    const ALPHABET_LAT = 'lat';
 
-	/**
-	 * Mappings cache.
-	 *
-	 * @var array
-	 */
-	protected $mappingCache;
+    /**
+     * Mappings cache.
+     *
+     * @var array
+     */
+    protected $mappingCache;
 
-	/**
+    /**
      * DataLoader constructor.
      */
     public function __construct() {
-    	$this->mappingCache = array();
+        $this->mappingCache = array();
     }
 
     /**
@@ -51,18 +51,18 @@ class DataLoader {
      * @return  array   map array
      */
     public function getTransliterationMap($basePath, $lang, $system, $alphabet) {
-    	// Valdate
+        // Valdate
         if (!in_array($alphabet, array(self::ALPHABET_CYR, self::ALPHABET_LAT))) {
             throw new \InvalidArgumentException(sprintf('Alphabet "%s" is not recognized.', $alphabet));
         }
 
         // Load form cache
-    	$map = $this->loadFromCache($lang, $system, $alphabet);
-    	if (null !== $map) {
-    		return $map;
-    	}
+        $map = $this->loadFromCache($lang, $system, $alphabet);
+        if (null !== $map) {
+            return $map;
+        }
 
-    	// Load from files
+        // Load from files
         $map = $this->loadFromFiles($basePath, $lang, $system);
 
         // Store to cache
@@ -80,21 +80,21 @@ class DataLoader {
      * @return  array   map array
      */
     protected function loadFromFiles($basePath, $lang, $system) {
-     	$path = sprintf('%s/data/%s/%s.php', $basePath, $lang, $system);
+         $path = sprintf('%s/data/%s/%s.php', $basePath, $lang, $system);
         if (!file_exists($path)) {
             throw new \Exception(sprintf('Map file "%s" does not exist.', $path));
         }
 
         $map = require($path);
         if (!is_array($map)
-        	|| !is_array($map[self::ALPHABET_CYR])
-        	|| !is_array($map[self::ALPHABET_LAT])
+            || !is_array($map[self::ALPHABET_CYR])
+            || !is_array($map[self::ALPHABET_LAT])
         ) {
             throw new \Exception(sprintf(
-            	'Map file "%s" is not valid, should return an array with %s and %s subarrays.',
-            	$path,
-            	self::ALPHABET_CYR,
-            	self::ALPHABET_LAT
+                'Map file "%s" is not valid, should return an array with %s and %s subarrays.',
+                $path,
+                self::ALPHABET_CYR,
+                self::ALPHABET_LAT
             ));
         }
 
@@ -110,12 +110,12 @@ class DataLoader {
      * @return array|null char map, null if not found
      */
     protected function loadFromCache($lang, $system, $alphabet) {
-    	$mappingCacheId = $this->getCacheId($lang, $system);
-    	if (isset($this->mappingCache[$mappingCacheId]) && isset($this->mappingCache[$mappingCacheId][$alphabet])) {
-    		return $this->mappingCache[$mappingCacheId][$alphabet];
-    	}
+        $mappingCacheId = $this->getCacheId($lang, $system);
+        if (isset($this->mappingCache[$mappingCacheId]) && isset($this->mappingCache[$mappingCacheId][$alphabet])) {
+            return $this->mappingCache[$mappingCacheId][$alphabet];
+        }
 
-    	return null;
+        return null;
     }
 
     /**
@@ -126,8 +126,8 @@ class DataLoader {
      * @param array char map
      */
     protected function storeToCache($lang, $system, $map) {
-    	$mappingCacheId = $this->getCacheId($lang, $system);
-    	$this->mappingCache[$mappingCacheId] = $map;
+        $mappingCacheId = $this->getCacheId($lang, $system);
+        $this->mappingCache[$mappingCacheId] = $map;
     }
 
     /**
@@ -138,6 +138,6 @@ class DataLoader {
      * @return string cache ID
      */
     protected function getCacheId($lang, $system) {
-    	return sprintf('%s_%s', $lang, $system);
+        return sprintf('%s_%s', $lang, $system);
     }
 }

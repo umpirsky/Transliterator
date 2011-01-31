@@ -1,12 +1,21 @@
-README
-======
+Welcome to Umpirsky Components 1.0.0 Release!
 
-What is Umpirsky?
+WHAT IS UMPIRSKY?
 -----------------
 
-Umpirsky is a collection of standalone PHP compoennts.
+Umpirsky is a collection of standalone PHP components.
 
-Requirements
-------------
+COMPONENTS
+----------
 
-Umpirsky is only supported on PHP 5.3.2 and up.
+* Transliterator
+
+SYSTEM REQUIREMENTS
+-------------------
+
+Umpirsky requires PHP 5.3 or later.
+
+LICENSE
+-------
+
+Please view the LICENSE file.
