@@ -197,7 +197,8 @@ class Transliterator {
             self::LANG_SR,
             self::LANG_RU,
             self::LANG_BE,
-            self::LANG_MK
+            self::LANG_MK,
+            self::LANG_UK
         );
     }
 
