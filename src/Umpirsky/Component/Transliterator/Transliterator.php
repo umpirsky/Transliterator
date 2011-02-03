@@ -59,6 +59,12 @@ class Transliterator {
     const SYSTEM_MK_BGN_PCGN = 'BGN_PCGN';
     const SYSTEM_MK_ISO_9_R_1968_National_Academy = 'ISO_9_R_1968_National_Academy';
     const SYSTEM_MK_ISO_9_R_1968_b = 'ISO_9_R_1968_b';
+    const SYSTEM_UK_ALA_LC = 'ALA_LC';
+    const SYSTEM_UK_British = 'British';
+    const SYSTEM_UK_BGN_PCGN = 'BGN_PCGN';
+    const SYSTEM_UK_ISO_9 = 'ISO_9';
+    const SYSTEM_UK_National = 'National';
+    const SYSTEM_UK_GOST_1971 = 'GOST_1971';
 
     /**
      * ISO 639-1 language code.
@@ -237,6 +243,16 @@ class Transliterator {
                     self::SYSTEM_MK_BGN_PCGN,
                     self::SYSTEM_MK_ISO_9_R_1968_National_Academy,
                     self::SYSTEM_MK_ISO_9_R_1968_b
+                ));
+            break;
+            case self::LANG_UK:
+                return array_merge($default, array(
+                    self::SYSTEM_UK_ALA_LC,
+                    self::SYSTEM_UK_British,
+                    self::SYSTEM_UK_BGN_PCGN,
+                    self::SYSTEM_UK_ISO_9,
+                    self::SYSTEM_UK_National,
+                    self::SYSTEM_UK_GOST_1971,
                 ));
             break;
         }

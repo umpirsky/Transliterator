@@ -398,7 +398,7 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * @dataProvider testUkrainianProvider
      */
-    public function testtestUkrainianProvider($expected, $actual, $direction) {
+    public function testUkrainian($expected, $actual, $direction) {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Transliterator::SYSTEM_DEFAULT)->transliterate($actual, $direction));
     }
 
@@ -406,6 +406,90 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
         return array(
             array('а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v h g d e je ž z y i ji j k l m n o p r s t u f x c č š šč ′ ju ja', false),
             array('a b v h g d e je ž z y i ji j k l m n o p r s t u f x c č š šč ′ ju ja', 'а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
+
+    /**
+     * @dataProvider testUkrainianALALCProvider
+     */
+    public function testUkrainianALALC($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorUk->setSystem(Transliterator::SYSTEM_UK_ALA_LC)->transliterate($actual, $direction));
+    }
+
+    public static function testUkrainianALALCProvider() {
+        return array(
+            array('а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v h g d e i͡e z͡h z y i ï ĭ k l m n o p r s t u f kh t͡s ch sh shch ′ i͡u i͡a', false),
+            array('a b v h g d e i͡e z͡h z y i ï ĭ k l m n o p r s t u f kh t͡s ch sh shch ′ i͡u i͡a', 'а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
+
+    /**
+     * @dataProvider testUkrainianBritishProvider
+     */
+    public function testtestUkrainianBritish($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorUk->setSystem(Transliterator::SYSTEM_UK_British)->transliterate($actual, $direction));
+    }
+
+    public static function testUkrainianBritishProvider() {
+        return array(
+            array('а б в г г д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v g g d e ye zh z y i ï ĭ k l m n o p r s t u f kh ts ch sh shch ′ yu ya', false),
+            array('a b v g g d e ye zh z y i ï ĭ k l m n o p r s t u f kh ts ch sh shch ′ yu ya', 'а б в г г д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
+
+     /**
+     * @dataProvider testUkrainianBGNPCGNProvider
+     */
+    public function testUkrainianBGNPCGN($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorUk->setSystem(Transliterator::SYSTEM_UK_BGN_PCGN)->transliterate($actual, $direction));
+    }
+
+    public static function testUkrainianBGNPCGNProvider() {
+        return array(
+            array('а б в г ґ д е є ж з и і ї и к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v h g d e ye zh z y i yi y k l m n o p r s t u f kh ts ch sh shch ’ yu ya', false),
+            array('a b v h g d e ye zh z y i yi y k l m n o p r s t u f kh ts ch sh shch ’ yu ya', 'а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
+
+    /**
+     * @dataProvider testUkrainianISO9Provider
+     */
+    public function testUkrainianISO9($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorUk->setSystem(Transliterator::SYSTEM_UK_ISO_9)->transliterate($actual, $direction));
+    }
+
+    public static function testUkrainianISO9Provider() {
+        return array(
+            array('а б в г д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v g d e ê ž z i ì ï j k l m n o p r s t u f h c č š ŝ ′ û â', false),
+            array('a b v g g̀ d e ê ž z i ì ï j k l m n o p r s t u f h c č š ŝ ′ û â', 'а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
+
+    /**
+     * @dataProvider testUkrainianNationalProvider
+     */
+    public function testUkrainianNational($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorUk->setSystem(Transliterator::SYSTEM_UK_National)->transliterate($actual, $direction));
+    }
+
+    public static function testUkrainianNationalProvider() {
+        return array(
+            array('а б в г ґ д е є ж з и і і і к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v h g d e ie zh z y i i i k l m n o p r s t u f kh ts ch sh sch ’ iu ia', false),
+            array('a b v h g d e ie zh z y i i i k l m n o p r s t u f kh ts ch sh sch ’ iu ia', 'а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
+
+    /**
+     * @dataProvider testUkrainianGOST1971Provider
+     */
+    public function testUkrainianGOST1971($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorUk->setSystem(Transliterator::SYSTEM_UK_GOST_1971)->transliterate($actual, $direction));
+    }
+
+    public static function testUkrainianGOST1971Provider() {
+        return array(
+            array('а б в г д е є ж з и ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', "a b v g d e je zh z i ji j k l m n o p r s t u f kh c ch sh shh ' ju ja", false),
+            array("a b v g d e je zh z i i ji j k l m n o p r s t u f kh c ch sh shh ' ju ja", 'а б в г д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
         );
     }
 }
