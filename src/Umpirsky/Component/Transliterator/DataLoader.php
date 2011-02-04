@@ -18,16 +18,6 @@ namespace Umpirsky\Component\Transliterator;
  */
 class DataLoader {
     /**
-     * Cyrillic alphabet ID
-     */
-    const ALPHABET_CYR = 'cyr';
-
-    /**
-     * Latin alphabet ID
-     */
-    const ALPHABET_LAT = 'lat';
-
-    /**
      * Mappings cache.
      *
      * @var array
@@ -44,57 +34,52 @@ class DataLoader {
     /**
      * Get transliteration map.
      *
-     * @param string $basePath map files base path
-     * @param string $lang language
-     * @param string $system transliteration system
+     * @param string $path path to map file
      * @param string $alphabet
      * @return  array   map array
      */
-    public function getTransliterationMap($basePath, $lang, $system, $alphabet) {
+    public function getTransliterationMap($path, $alphabet) {
         // Valdate
-        if (!in_array($alphabet, array(self::ALPHABET_CYR, self::ALPHABET_LAT))) {
+        if (!in_array($alphabet, array(Settings::ALPHABET_CYR, Settings::ALPHABET_LAT))) {
             throw new \InvalidArgumentException(sprintf('Alphabet "%s" is not recognized.', $alphabet));
         }
 
         // Load form cache
-        $map = $this->loadFromCache($lang, $system, $alphabet);
+        $map = $this->loadFromCache($path, $alphabet);
         if (null !== $map) {
             return $map;
         }
 
-        // Load from files
-        $map = $this->loadFromFiles($basePath, $lang, $system);
+        // Load from file
+        $map = $this->loadFromFile($path);
 
         // Store to cache
-        $this->storeToCache($lang, $system, $map);
+        $this->storeToCache($path, $map);
 
-        return $this->loadFromCache($lang, $system, $alphabet);
+        return $this->loadFromCache($path, $alphabet);
     }
 
     /**
-     * Load map from files.
+     * Load map from file.
      *
-     * @param string $basePath map files base path
-     * @param string $lang language
-     * @param string $system transliteration system
+     * @param string $path path to map file
      * @return  array   map array
      */
-    protected function loadFromFiles($basePath, $lang, $system) {
-         $path = sprintf('%s/data/%s/%s.php', $basePath, $lang, $system);
+    protected function loadFromFile($path) {
         if (!file_exists($path)) {
             throw new \Exception(sprintf('Map file "%s" does not exist.', $path));
         }
 
         $map = require($path);
         if (!is_array($map)
-            || !is_array($map[self::ALPHABET_CYR])
-            || !is_array($map[self::ALPHABET_LAT])
+            || !is_array($map[Settings::ALPHABET_CYR])
+            || !is_array($map[Settings::ALPHABET_LAT])
         ) {
             throw new \Exception(sprintf(
                 'Map file "%s" is not valid, should return an array with %s and %s subarrays.',
                 $path,
-                self::ALPHABET_CYR,
-                self::ALPHABET_LAT
+                Settings::ALPHABET_CYR,
+                Settings::ALPHABET_LAT
             ));
         }
 
@@ -104,15 +89,13 @@ class DataLoader {
     /**
      * Load map from cache.
      *
-     * @param string $lang language
-     * @param string $system transliteration system
+     * @param string $id cache ID
      * @param string $alphabet
      * @return array|null char map, null if not found
      */
-    protected function loadFromCache($lang, $system, $alphabet) {
-        $mappingCacheId = $this->getCacheId($lang, $system);
-        if (isset($this->mappingCache[$mappingCacheId]) && isset($this->mappingCache[$mappingCacheId][$alphabet])) {
-            return $this->mappingCache[$mappingCacheId][$alphabet];
+    protected function loadFromCache($id, $alphabet) {
+        if (isset($this->mappingCache[$id]) && isset($this->mappingCache[$id][$alphabet])) {
+            return $this->mappingCache[$id][$alphabet];
         }
 
         return null;
@@ -121,23 +104,10 @@ class DataLoader {
     /**
      * Store map to cache.
      *
-     * @param string $lang language
-     * @param string $system transliteration system
+     * @param string $id cache ID
      * @param array char map
      */
-    protected function storeToCache($lang, $system, $map) {
-        $mappingCacheId = $this->getCacheId($lang, $system);
-        $this->mappingCache[$mappingCacheId] = $map;
-    }
-
-    /**
-     * Generate cache ID.
-     *
-     * @param string $lang language
-     * @param string $system transliteration system
-     * @return string cache ID
-     */
-    protected function getCacheId($lang, $system) {
-        return sprintf('%s_%s', $lang, $system);
+    protected function storeToCache($id, $map) {
+        $this->mappingCache[$id] = $map;
     }
 }

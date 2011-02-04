@@ -72,8 +72,8 @@ class Transliterator {
      */
     public function __construct($lang, $system = Settings::SYSTEM_DEFAULT) {
     	$this->settings = new Settings($lang, $system);
-        $this->setMapBasePath(__DIR__);
-        $this->dataLoader = new DataLoader();
+    	$this->dataLoader = new DataLoader();
+        $this->setMapBasePath(__DIR__ . DIRECTORY_SEPARATOR . 'data');
     }
     
     /**
@@ -155,7 +155,7 @@ class Transliterator {
      */
     public function getCyrMap() {
         if (null === $this->cyrMap) {
-            $this->cyrMap = $this->getTransliterationMap(DataLoader::ALPHABET_CYR);
+            $this->cyrMap = $this->getTransliterationMap(Settings::ALPHABET_CYR);
         }
 
         return $this->cyrMap;
@@ -168,7 +168,7 @@ class Transliterator {
      */
     public function getLatMap() {
         if (null === $this->latMap) {
-            $this->latMap = $this->getTransliterationMap(DataLoader::ALPHABET_LAT);
+            $this->latMap = $this->getTransliterationMap(Settings::ALPHABET_LAT);
         }
 
         return $this->latMap;
@@ -182,9 +182,7 @@ class Transliterator {
      */
     protected function getTransliterationMap($alphabet) {
         return $this->dataLoader->getTransliterationMap(
-            $this->getMapBasePath(),
-            $this->settings->getLang(),
-            $this->settings->getSystem(),
+            $this->getMapFilePath(),
             $alphabet
         );
     }
@@ -214,7 +212,7 @@ class Transliterator {
     }
 
     /**
-     * Set path to map files.
+     * Set base path to map files.
      *
      * @param string $mapBasePath path to map files
      * @return Transliterator fluent interface
@@ -226,11 +224,27 @@ class Transliterator {
     }
 
     /**
-     * Get path to map files.
+     * Get base path to map files.
      *
      * @return string path to map files
      */
     public function getMapBasePath() {
         return $this->mapBasePath;
+    }
+    
+    /**
+     * Get path to map file depending on current settings.
+     *
+     * @return string path to map file
+     */
+    protected function getMapFilePath() {
+        return sprintf(
+            '%s.php',
+            $this->mapBasePath .
+            DIRECTORY_SEPARATOR . 
+            $this->settings->getLang().
+            DIRECTORY_SEPARATOR .
+            $this->settings->getSystem()
+        );
     }
 }

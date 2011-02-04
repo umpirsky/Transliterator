@@ -54,6 +54,16 @@ class Settings {
     const SYSTEM_UK_ISO_9 = 'ISO_9';
     const SYSTEM_UK_National = 'National';
     const SYSTEM_UK_GOST_1971 = 'GOST_1971';
+    
+    /**
+     * Cyrillic alphabet ID
+     */
+    const ALPHABET_CYR = 'cyr';
+
+    /**
+     * Latin alphabet ID
+     */
+    const ALPHABET_LAT = 'lat';
 
     /**
      * ISO 639-1 language code.
