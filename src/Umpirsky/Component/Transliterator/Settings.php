@@ -18,42 +18,119 @@ namespace Umpirsky\Component\Transliterator;
  */
 class Settings {
 	/**
-     * Supported languages ISO 639-1 codes.
+     * Serbian (српски) ISO 639-1 code.
      */
-    const LANG_SR = 'sr'; // Serbian (српски)
-    const LANG_MK = 'mk'; // Macedonian (македонски)
-    const LANG_RU = 'ru'; // Russian (русский)
-    const LANG_BE = 'be'; // Belarusian (беларуская)
-    const LANG_UK = 'uk'; // Ukrainian (українська)
-    const LANG_BG = 'bg'; // Bulgarian (български)
-    const LANG_EL = 'el'; // Greek (Ελληνικά)
+    const LANG_SR = 'sr';
+    
+    /**
+     * Macedonian (македонски) ISO 639-1 code.
+     */
+    const LANG_MK = 'mk';
+    
+    /**
+     * Russian (русский) ISO 639-1 code.
+     */
+    const LANG_RU = 'ru';
+    
+    /**
+     * Belarusian (беларуская) ISO 639-1 code.
+     */
+    const LANG_BE = 'be';
+    
+    /**
+     * Ukrainian (українська) ISO 639-1 code.
+     */
+    const LANG_UK = 'uk';
+    
+    /**
+     * Bulgarian (български) ISO 639-1 code.
+     */
+    const LANG_BG = 'bg';
+    
+    /**
+     * Greek (Ελληνικά) ISO 639-1 code.
+     */
+    const LANG_EL = 'el';
 
     /**
-     * Supported transliteration systems.
+     * Usually scholarly or some default transliteration system.
      */
     const SYSTEM_DEFAULT = 'default';
-    const SYSTEM_RU_ISO_R_9_1968 = 'ISO_R_9_1968';
-    const SYSTEM_RU_GOST_1971 = 'GOST_1971';
-    const SYSTEM_RU_GOST_1983 = 'GOST_1983';
-    const SYSTEM_RU_GOST_2002 = 'GOST_2002';
-    const SYSTEM_RU_ALA_LC = 'ALA_LC';
-    const SYSTEM_RU_British_Standard = 'British_Standard';
-    const SYSTEM_RU_BGN_PCGN = 'BGN_PCGN';
-    const SYSTEM_RU_Passport_2003 = 'Passport_2003';
-    const SYSTEM_BE_ALA_LC = 'ALA_LC';
-    const SYSTEM_BE_BGN_PCGN = 'BGN_PCGN';
-    const SYSTEM_BE_ISO_9 = 'ISO_9';
-    const SYSTEM_BE_National_2000 = 'National_2000';
-    const SYSTEM_MK_ISO_9_1995 = 'ISO_9_1995';
-    const SYSTEM_MK_BGN_PCGN = 'BGN_PCGN';
-    const SYSTEM_MK_ISO_9_R_1968_National_Academy = 'ISO_9_R_1968_National_Academy';
-    const SYSTEM_MK_ISO_9_R_1968_b = 'ISO_9_R_1968_b';
-    const SYSTEM_UK_ALA_LC = 'ALA_LC';
-    const SYSTEM_UK_British = 'British';
-    const SYSTEM_UK_BGN_PCGN = 'BGN_PCGN';
-    const SYSTEM_UK_ISO_9 = 'ISO_9';
-    const SYSTEM_UK_National = 'National';
-    const SYSTEM_UK_GOST_1971 = 'GOST_1971';
+    
+    /**
+     * ISO 9 transliteration system.
+     */
+    const SYSTEM_ISO_9 = 'ISO_9';
+    
+    /**
+     * ISO 9 (1995) transliteration system.
+     */
+    const SYSTEM_ISO_9_1995 = 'ISO_9_1995';
+    
+    /**
+     * ISO/R 9:1968 transliteration system.
+     */
+    const SYSTEM_ISO_R_9_1968 = 'ISO_R_9_1968';
+    
+    /**
+     * ISO 9 (R:1968, b) transliteration system.
+     */
+    const SYSTEM_ISO_9_R_1968_b = 'ISO_9_R_1968_b';
+    
+    /**
+     * ISO 9 (R:1968) + National Academy transliteration system.
+     */
+    const SYSTEM_ISO_9_R_1968_National_Academy = 'ISO_9_R_1968_National_Academy';
+    
+    /**
+     * GOST 1971 transliteration system.
+     */
+    const SYSTEM_GOST_1971 = 'GOST_1971';
+    
+    /**
+     * GOST 1983 transliteration system.
+     */
+    const SYSTEM_GOST_1983 = 'GOST_1983';
+    
+    /**
+     * GOST 2002 transliteration system.
+     */
+    const SYSTEM_GOST_2002 = 'GOST_2002';
+    
+    /**
+     * ALA-LC transliteration system.
+     */
+    const SYSTEM_ALA_LC = 'ALA_LC';
+    
+    /**
+     * BGN/PCGN transliteration system.
+     */
+    const SYSTEM_BGN_PCGN = 'BGN_PCGN';
+    
+    /**
+     * Passport 2003 transliteration system.
+     */
+    const SYSTEM_Passport_2003 = 'Passport_2003';
+    
+    /**
+     * National transliteration system.
+     */
+    const SYSTEM_National = 'National';
+    
+    /**
+     * National 2000 transliteration system.
+     */
+    const SYSTEM_National_2000 = 'National_2000';
+    
+    /**
+     * British transliteration system.
+     */
+    const SYSTEM_British = 'British';
+    
+    /**
+     * British Standard transliteration system.
+     */
+    const SYSTEM_British_Standard = 'British_Standard';
     
     /**
      * Cyrillic alphabet ID
@@ -104,7 +181,7 @@ class Settings {
      * Set language.
      *
      * @param string $lang ISO 639-1 language code
-     * @return Transliterator fluent interface
+     * @return Settings fluent interface
      * @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
      */
     public function setLang($lang) {
@@ -134,7 +211,7 @@ class Settings {
      * Set transliteration system.
      *
      * @param string $system transliteration system
-     * @return Transliterator fluent interface
+     * @return Settings fluent interface
      */
     public function setSystem($system) {
         if (!in_array($system, $this->getSupportedTranliterationSystems())) {
@@ -177,40 +254,40 @@ class Settings {
         switch ($this->getLang()) {
             case self::LANG_RU:
                 return array_merge($default, array(
-                    self::SYSTEM_RU_ISO_R_9_1968,
-                    self::SYSTEM_RU_GOST_1971,
-                    self::SYSTEM_RU_GOST_1983,
-                    self::SYSTEM_RU_GOST_2002,
-                    self::SYSTEM_RU_ALA_LC,
-                    self::SYSTEM_RU_British_Standard,
-                    self::SYSTEM_RU_BGN_PCGN,
-                    self::SYSTEM_RU_Passport_2003
+                    self::SYSTEM_ISO_R_9_1968,
+                    self::SYSTEM_GOST_1971,
+                    self::SYSTEM_GOST_1983,
+                    self::SYSTEM_GOST_2002,
+                    self::SYSTEM_ALA_LC,
+                    self::SYSTEM_British_Standard,
+                    self::SYSTEM_BGN_PCGN,
+                    self::SYSTEM_Passport_2003
                 ));
             break;
             case self::LANG_BE:
                 return array_merge($default, array(
-                    self::SYSTEM_BE_ALA_LC,
-                    self::SYSTEM_BE_BGN_PCGN,
-                    self::SYSTEM_BE_ISO_9,
-                    self::SYSTEM_BE_National_2000
+                    self::SYSTEM_ALA_LC,
+                    self::SYSTEM_BGN_PCGN,
+                    self::SYSTEM_ISO_9,
+                    self::SYSTEM_National_2000
                 ));
             break;
             case self::LANG_MK:
                 return array_merge($default, array(
-                    self::SYSTEM_MK_ISO_9_1995,
-                    self::SYSTEM_MK_BGN_PCGN,
-                    self::SYSTEM_MK_ISO_9_R_1968_National_Academy,
-                    self::SYSTEM_MK_ISO_9_R_1968_b
+                    self::SYSTEM_ISO_9_1995,
+                    self::SYSTEM_BGN_PCGN,
+                    self::SYSTEM_ISO_9_R_1968_National_Academy,
+                    self::SYSTEM_ISO_9_R_1968_b
                 ));
             break;
             case self::LANG_UK:
                 return array_merge($default, array(
-                    self::SYSTEM_UK_ALA_LC,
-                    self::SYSTEM_UK_British,
-                    self::SYSTEM_UK_BGN_PCGN,
-                    self::SYSTEM_UK_ISO_9,
-                    self::SYSTEM_UK_National,
-                    self::SYSTEM_UK_GOST_1971,
+                    self::SYSTEM_ALA_LC,
+                    self::SYSTEM_British,
+                    self::SYSTEM_BGN_PCGN,
+                    self::SYSTEM_ISO_9,
+                    self::SYSTEM_National,
+                    self::SYSTEM_GOST_1971
                 ));
             break;
         }
