@@ -17,7 +17,7 @@ namespace Umpirsky\Component\Transliterator;
  * @author Saša Stamenković <umpirsky@gmail.com>
  */
 class Settings {
-	/**
+    /**
      * Serbian (српски) ISO 639-1 code.
      */
     const LANG_SR = 'sr';

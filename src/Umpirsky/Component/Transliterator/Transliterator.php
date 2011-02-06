@@ -28,12 +28,12 @@ namespace Umpirsky\Component\Transliterator;
  * @see http://en.wikipedia.org/wiki/Transliteration
  */
 class Transliterator {
-	/**
-	 * Transliterator settings.
-	 *
-	 * @var Settings
-	 */
-	protected $settings;
+    /**
+     * Transliterator settings.
+     *
+     * @var Settings
+     */
+    protected $settings;
 	
     /**
      * Mapping loader.
@@ -218,7 +218,7 @@ class Transliterator {
      * @return Transliterator fluent interface
      */
     public function setMapBasePath($mapBasePath) {
-        $this->mapBasePath = $mapBasePath;
+        $this->mapBasePath = rtrim($mapBasePath, DIRECTORY_SEPARATOR);
 
         return $this;
     }
