@@ -493,4 +493,32 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
             array("a b v g d e je zh z i i ji j k l m n o p r s t u f kh c ch sh shh ' ju ja", 'а б в г д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
         );
     }
+
+    /**
+     * @dataProvider testUkrainianGOST1986Provider
+     */
+    public function testUkrainianGOST1986($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_GOST_1986)->transliterate($actual, $direction));
+    }
+
+    public static function testUkrainianGOST1986Provider() {
+        return array(
+            array('а б в г д е є ж з й к л м н о п р с т у ф х ц ч ш щ ь ю я', "a b v g d e je ž z j k l m n o p r s t u f h c č š šč ' ju ja", false),
+            array("a b v g d e je ž z i i i j k l m n o p r s t u f h c č š šč ' ju ja", 'а б в г д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
+
+    /**
+     * @dataProvider testUkrainianDerzhstandart1995Provider
+     */
+    public function testUkrainianDerzhstandart1995($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_Derzhstandart_1995)->transliterate($actual, $direction));
+    }
+
+    public static function testUkrainianDerzhstandart1995Provider() {
+        return array(
+            array('а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ю я', 'a b v gh g d e je zh z y i ji j k l m n o p r s t u f kh c ch sh shh ju ja', false),
+            array('a b v gh g d e je zh z y i ji j k l m n o p r s t u f kh c ch sh shh j ju ja', 'а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
 }

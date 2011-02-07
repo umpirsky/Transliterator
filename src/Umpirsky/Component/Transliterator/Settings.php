@@ -12,7 +12,7 @@
 namespace Umpirsky\Component\Transliterator;
 
 /**
- * Keeps language and transliteration system settings.
+ * Keeps language,transliteration system and base path settings.
  *
  * @author Saša Stamenković <umpirsky@gmail.com>
  */
@@ -21,32 +21,32 @@ class Settings {
      * Serbian (српски) ISO 639-1 code.
      */
     const LANG_SR = 'sr';
-    
+
     /**
      * Macedonian (македонски) ISO 639-1 code.
      */
     const LANG_MK = 'mk';
-    
+
     /**
      * Russian (русский) ISO 639-1 code.
      */
     const LANG_RU = 'ru';
-    
+
     /**
      * Belarusian (беларуская) ISO 639-1 code.
      */
     const LANG_BE = 'be';
-    
+
     /**
      * Ukrainian (українська) ISO 639-1 code.
      */
     const LANG_UK = 'uk';
-    
+
     /**
      * Bulgarian (български) ISO 639-1 code.
      */
     const LANG_BG = 'bg';
-    
+
     /**
      * Greek (Ελληνικά) ISO 639-1 code.
      */
@@ -56,82 +56,92 @@ class Settings {
      * Usually scholarly or some default transliteration system.
      */
     const SYSTEM_DEFAULT = 'default';
-    
+
     /**
      * ISO 9 transliteration system.
      */
     const SYSTEM_ISO_9 = 'ISO_9';
-    
+
     /**
      * ISO 9 (1995) transliteration system.
      */
     const SYSTEM_ISO_9_1995 = 'ISO_9_1995';
-    
+
     /**
      * ISO/R 9:1968 transliteration system.
      */
     const SYSTEM_ISO_R_9_1968 = 'ISO_R_9_1968';
-    
+
     /**
      * ISO 9 (R:1968, b) transliteration system.
      */
     const SYSTEM_ISO_9_R_1968_b = 'ISO_9_R_1968_b';
-    
+
     /**
      * ISO 9 (R:1968) + National Academy transliteration system.
      */
     const SYSTEM_ISO_9_R_1968_National_Academy = 'ISO_9_R_1968_National_Academy';
-    
+
     /**
      * GOST 1971 transliteration system.
      */
     const SYSTEM_GOST_1971 = 'GOST_1971';
-    
+
     /**
      * GOST 1983 transliteration system.
      */
     const SYSTEM_GOST_1983 = 'GOST_1983';
-    
+
+    /**
+     * GOST 1986 transliteration system.
+     */
+    const SYSTEM_GOST_1986 = 'GOST_1986';
+
     /**
      * GOST 2002 transliteration system.
      */
     const SYSTEM_GOST_2002 = 'GOST_2002';
-    
+
     /**
      * ALA-LC transliteration system.
      */
     const SYSTEM_ALA_LC = 'ALA_LC';
-    
+
     /**
      * BGN/PCGN transliteration system.
      */
     const SYSTEM_BGN_PCGN = 'BGN_PCGN';
-    
+
     /**
      * Passport 2003 transliteration system.
      */
     const SYSTEM_Passport_2003 = 'Passport_2003';
-    
+
     /**
      * National transliteration system.
      */
     const SYSTEM_National = 'National';
-    
+
     /**
      * National 2000 transliteration system.
      */
     const SYSTEM_National_2000 = 'National_2000';
-    
+
     /**
      * British transliteration system.
      */
     const SYSTEM_British = 'British';
-    
+
     /**
      * British Standard transliteration system.
      */
     const SYSTEM_British_Standard = 'British_Standard';
-    
+
+    /**
+     * British Standard transliteration system.
+     */
+    const SYSTEM_Derzhstandart_1995 = 'Derzhstandart_1995';
+
     /**
      * Cyrillic alphabet ID
      */
@@ -155,7 +165,14 @@ class Settings {
      * @var string
      */
     protected $system;
-    
+
+    /**
+     * Path to map files.
+     *
+     * @var string
+     */
+    protected $mapBasePath;
+
     /**
      * Settings constructor.
      *
@@ -165,9 +182,38 @@ class Settings {
      */
     public function __construct($lang, $system) {
         $this->setLang($lang)
-          ->setSystem($system);
+          ->setSystem($system)
+          ->setMapBasePath(__DIR__ . DIRECTORY_SEPARATOR . 'data');
     }
-    
+
+    /**
+     * Get path to map file depending on current settings.
+     *
+     * @return string path to map file
+     */
+    public function getMapFilePath() {
+        return sprintf(
+            '%s.php',
+            $this->mapBasePath .
+            DIRECTORY_SEPARATOR .
+            $this->getLang().
+            DIRECTORY_SEPARATOR .
+            $this->getSystem()
+        );
+    }
+
+    /**
+     * Set base path to map files.
+     *
+     * @param string $mapBasePath path to map files
+     * @return Transliterator fluent interface
+     */
+    public function setMapBasePath($mapBasePath) {
+        $this->mapBasePath = rtrim($mapBasePath, DIRECTORY_SEPARATOR);
+
+        return $this;
+    }
+
     /**
      * Get language.
      *
@@ -287,7 +333,9 @@ class Settings {
                     self::SYSTEM_BGN_PCGN,
                     self::SYSTEM_ISO_9,
                     self::SYSTEM_National,
-                    self::SYSTEM_GOST_1971
+                    self::SYSTEM_GOST_1971,
+                    self::SYSTEM_GOST_1986,
+                    self::SYSTEM_Derzhstandart_1995,
                 ));
             break;
         }
