@@ -521,4 +521,46 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
             array('a b v gh g d e je zh z y i ji j k l m n o p r s t u f kh c ch sh shh j ju ja', 'а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
         );
     }
+
+    /**
+     * @dataProvider testUkrainianPassport2004Provider
+     */
+    public function testUkrainianPassport2004($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_Passport_2004)->transliterate($actual, $direction));
+    }
+
+    public static function testUkrainianPassport2004Provider() {
+        return array(
+            array('а б в г ґ д е к л м н о п р с т у ф х ц ч ш щ ь ю я', "a b v h g d e k l m n o p r s t u f kh ts ch sh shch ' iu ia", false),
+            array("a b v h g d e i z z y i i i k l m n o p r s t u f kh ts ch sh shch ' iu ia", 'а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
+
+    /**
+     * @dataProvider testUkrainianPassport2007Provider
+     */
+    public function testUkrainianPassport2007($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_Passport_2007)->transliterate($actual, $direction));
+    }
+
+    public static function testUkrainianPassport2007Provider() {
+        return array(
+            array('а б в г д е є ж з и к л м н о п р с т у ф х ц ч ш щ ю я', 'a b v g d e ie zh z y k l m n o p r s t u f kh ts ch sh shch iu ia', false),
+            array('a b v g g d e ie zh z y i i i k l m n o p r s t u f kh ts ch sh shch  iu ia', 'а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
+
+    /**
+     * @dataProvider testUkrainianPassport2010Provider
+     */
+    public function testUkrainianPassport2010($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_Passport_2010)->transliterate($actual, $direction));
+    }
+
+    public static function testUkrainianPassport2010Provider() {
+        return array(
+            array('а б в г ґ д е є и к л м н о п р с т у ф х ц ч ш щ ю я', 'a b v h g d e i y k l m n o p r s t u f kh ts ch sh shch iu ia', false),
+            array('a b v h g d e i z z y i i i k l m n o p r s t u f kh ts ch sh shch  iu ia', 'а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
 }

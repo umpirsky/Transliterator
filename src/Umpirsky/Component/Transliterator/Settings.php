@@ -48,7 +48,7 @@ class Settings {
     const LANG_BG = 'bg';
 
     /**
-     * Greek (Ελληνικά) ISO 639-1 code.
+     * Greek (ελληνικά) ISO 639-1 code.
      */
     const LANG_EL = 'el';
 
@@ -118,6 +118,21 @@ class Settings {
     const SYSTEM_Passport_2003 = 'Passport_2003';
 
     /**
+     * Passport 2004 transliteration system.
+     */
+    const SYSTEM_Passport_2004 = 'Passport_2004';
+
+    /**
+     * Passport 2007 transliteration system.
+     */
+    const SYSTEM_Passport_2007 = 'Passport_2007';
+
+    /**
+     * Passport 2010 transliteration system.
+     */
+    const SYSTEM_Passport_2010 = 'Passport_2010';
+
+    /**
      * National transliteration system.
      */
     const SYSTEM_National = 'National';
@@ -180,7 +195,7 @@ class Settings {
      * @param string $system transliteration system
      * @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
      */
-    public function __construct($lang, $system) {
+    public function __construct($lang, $system = self::SYSTEM_DEFAULT) {
         $this->setLang($lang)
           ->setSystem($system)
           ->setMapBasePath(__DIR__ . DIRECTORY_SEPARATOR . 'data');
@@ -336,6 +351,9 @@ class Settings {
                     self::SYSTEM_GOST_1971,
                     self::SYSTEM_GOST_1986,
                     self::SYSTEM_Derzhstandart_1995,
+                    self::SYSTEM_Passport_2004,
+                    self::SYSTEM_Passport_2007,
+                    self::SYSTEM_Passport_2010
                 ));
             break;
         }
