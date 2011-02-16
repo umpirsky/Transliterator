@@ -300,7 +300,9 @@ class Settings {
             self::LANG_RU,
             self::LANG_BE,
             self::LANG_MK,
-            self::LANG_UK
+            self::LANG_UK,
+            self::LANG_BG,
+            self::LANG_EL
         );
     }
 
@@ -355,6 +357,12 @@ class Settings {
                     self::SYSTEM_Passport_2007,
                     self::SYSTEM_Passport_2010
                 ));
+            break;
+            case self::LANG_BG:
+                return $default;
+            break;
+            case self::LANG_EL:
+                return $default;
             break;
         }
 

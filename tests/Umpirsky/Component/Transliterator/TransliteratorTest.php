@@ -57,6 +57,20 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
      */
     protected static $transliteratorUk;
 
+    /**
+     * Bg Transliterator.
+     *
+     * @var Transliterator
+     */
+    protected static $transliteratorBg;
+
+    /**
+     * El Transliterator.
+     *
+     * @var Transliterator
+     */
+    protected static $transliteratorEl;
+
     public static function setUpBeforeClass() {
         self::$transliterator = new Transliterator(Settings::LANG_SR);
         self::$transliteratorSr = new Transliterator(Settings::LANG_SR);
@@ -64,6 +78,8 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
         self::$transliteratorBe = new Transliterator(Settings::LANG_BE);
         self::$transliteratorMk = new Transliterator(Settings::LANG_MK);
         self::$transliteratorUk = new Transliterator(Settings::LANG_UK);
+        self::$transliteratorBg = new Transliterator(Settings::LANG_BG);
+        self::$transliteratorEl = new Transliterator(Settings::LANG_EL);
     }
 
     /**
@@ -561,6 +577,34 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
         return array(
             array('а б в г ґ д е є и к л м н о п р с т у ф х ц ч ш щ ю я', 'a b v h g d e i y k l m n o p r s t u f kh ts ch sh shch iu ia', false),
             array('a b v h g d e i z z y i i i k l m n o p r s t u f kh ts ch sh shch  iu ia', 'а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', true)
+        );
+    }
+
+    /**
+     * @dataProvider testBulgarianProvider
+     */
+    public function testBulgarian($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorBg->setSystem(Settings::SYSTEM_DEFAULT)->transliterate($actual, $direction));
+    }
+
+    public static function testBulgarianProvider() {
+        return array(
+            array('а б в г д е з и к л м н о п р с т ф ж ч ш щ ц х й ю я ь у ъ ѣ ѫ', 'a b v g d e z i k l m n o p r s t f ž č š ŝ c h j û â ′ u ″ ě ǎ', false),
+            array('a b v g d e z i k l m n o p r s t f ž č š ŝ c h j û â ′ u ″ ě ǎ', 'а б в г д е з и к л м н о п р с т ф ж ч ш щ ц х й ю я ь у ъ ѣ ѫ', true)
+        );
+    }
+
+    /**
+     * @dataProvider testGreekProvider
+     */
+    public function testGreek($expected, $actual, $direction) {
+        $this->assertEquals($expected, self::$transliteratorEl->setSystem(Settings::SYSTEM_DEFAULT)->transliterate($actual, $direction));
+    }
+
+    public static function testGreekProvider() {
+        return array(
+            array('α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ τ υ φ χ ψ ω', 'a b g d e z h q i k l m n c o p r s t u f x y w', false),
+            array('a b g d e z h q i k l m n c o p r s t u f x y w', 'α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ τ υ φ χ ψ ω', true)
         );
     }
 }
