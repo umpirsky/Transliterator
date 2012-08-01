@@ -1,4 +1,4 @@
-Transliterator
+Transliterator [![Build Status](https://secure.travis-ci.org/umpirsky/Transliterator.png?branch=master)](http://travis-ci.org/umpirsky/Transliterator)
 ==============
 
 Transliterator is a PHP library for text transliteration.
