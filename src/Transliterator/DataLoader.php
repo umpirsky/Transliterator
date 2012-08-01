@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Umpirsky\Component\Transliterator;
+namespace Transliterator;
 
 /**
  * Loads transliteration maps from files.

@@ -1,27 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         bootstrap="tests/bootstrap.php"
->
+<phpunit bootstrap="src/autoload.php">
     <testsuites>
-        <testsuite name="Umpirsky Test Suite">
-            <directory>./tests/Umpirsky/</directory>
+        <testsuite name="Transliterator Test Suite">
+            <directory>./tests/Transliterator/</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory>./src/Umpirky/</directory>
-            <exclude>
-                <directory>./src/Symfony/Component/Transliterator/data</directory>
-            </exclude>
-        </whitelist>
-    </filter>
 </phpunit>

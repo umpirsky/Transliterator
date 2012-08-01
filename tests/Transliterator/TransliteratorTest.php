@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Umpirsky\Tests\Component\Transliterator;
+namespace Transliterator\Tests;
 
-use Umpirsky\Component\Transliterator\Settings;
-use Umpirsky\Component\Transliterator\Transliterator;
+use Transliterator\Settings;
+use Transliterator\Transliterator;
 
 class TranslatorTest extends \PHPUnit_Framework_TestCase {
     /**
@@ -86,14 +86,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase {
      * @expectedException InvalidArgumentException
      */
     public function testWrongLanguage() {
-        $transliterator = new Transliterator('xx');
+        new Transliterator('xx');
     }
 
     /**
      * @expectedException InvalidArgumentException
      */
     public function testWrongSystem() {
-        $transliterator = new Transliterator(Settings::LANG_SR, 'xxx');
+        new Transliterator(Settings::LANG_SR, 'xxx');
     }
 
     public function testCustomMap() {

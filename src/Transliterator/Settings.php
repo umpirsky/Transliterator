@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Umpirsky\Component\Transliterator;
+namespace Transliterator;
 
 /**
  * Keeps language,transliteration system and base path settings.
