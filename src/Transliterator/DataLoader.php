@@ -16,7 +16,8 @@ namespace Transliterator;
  *
  * @author Саша Стаменковић <umpirsky@gmail.com>
  */
-class DataLoader {
+class DataLoader
+{
     /**
      * Mappings cache.
      *
@@ -27,18 +28,20 @@ class DataLoader {
     /**
      * DataLoader constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->mappingCache = array();
     }
 
     /**
      * Get transliteration map.
      *
-     * @param string $path path to map file
-     * @param string $alphabet
-     * @return  array   map array
+     * @param  string $path     path to map file
+     * @param  string $alphabet
+     * @return array  map array
      */
-    public function getTransliterationMap($path, $alphabet) {
+    public function getTransliterationMap($path, $alphabet)
+    {
         // Valdate
         if (!in_array($alphabet, array(Settings::ALPHABET_CYR, Settings::ALPHABET_LAT))) {
             throw new \InvalidArgumentException(sprintf('Alphabet "%s" is not recognized.', $alphabet));
@@ -62,10 +65,11 @@ class DataLoader {
     /**
      * Load map from file.
      *
-     * @param string $path path to map file
-     * @return  array   map array
+     * @param  string $path path to map file
+     * @return array  map array
      */
-    protected function loadFromFile($path) {
+    protected function loadFromFile($path)
+    {
         if (!file_exists($path)) {
             throw new \Exception(sprintf('Map file "%s" does not exist.', $path));
         }
@@ -89,11 +93,12 @@ class DataLoader {
     /**
      * Load map from cache.
      *
-     * @param string $id cache ID
-     * @param string $alphabet
+     * @param  string     $id       cache ID
+     * @param  string     $alphabet
      * @return array|null char map, null if not found
      */
-    protected function loadFromCache($id, $alphabet) {
+    protected function loadFromCache($id, $alphabet)
+    {
         if (isset($this->mappingCache[$id]) && isset($this->mappingCache[$id][$alphabet])) {
             return $this->mappingCache[$id][$alphabet];
         }
@@ -107,7 +112,8 @@ class DataLoader {
      * @param string $id cache ID
      * @param array char map
      */
-    protected function storeToCache($id, $map) {
+    protected function storeToCache($id, $map)
+    {
         $this->mappingCache[$id] = $map;
     }
 }

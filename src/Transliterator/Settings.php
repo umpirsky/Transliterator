@@ -16,7 +16,8 @@ namespace Transliterator;
  *
  * @author Саша Стаменковић <umpirsky@gmail.com>
  */
-class Settings {
+class Settings
+{
     /**
      * Serbian (српски) ISO 639-1 code.
      */
@@ -191,11 +192,12 @@ class Settings {
     /**
      * Settings constructor.
      *
-     * @param string $lang ISO 639-1 language code
+     * @param string $lang   ISO 639-1 language code
      * @param string $system transliteration system
      * @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
      */
-    public function __construct($lang, $system = self::SYSTEM_DEFAULT) {
+    public function __construct($lang, $system = self::SYSTEM_DEFAULT)
+    {
         $this->setLang($lang)
           ->setSystem($system)
           ->setMapBasePath(__DIR__ . DIRECTORY_SEPARATOR . 'data');
@@ -206,7 +208,8 @@ class Settings {
      *
      * @return string path to map file
      */
-    public function getMapFilePath() {
+    public function getMapFilePath()
+    {
         return sprintf(
             '%s.php',
             $this->mapBasePath .
@@ -220,10 +223,11 @@ class Settings {
     /**
      * Set base path to map files.
      *
-     * @param string $mapBasePath path to map files
+     * @param  string         $mapBasePath path to map files
      * @return Transliterator fluent interface
      */
-    public function setMapBasePath($mapBasePath) {
+    public function setMapBasePath($mapBasePath)
+    {
         $this->mapBasePath = rtrim($mapBasePath, DIRECTORY_SEPARATOR);
 
         return $this;
@@ -234,18 +238,20 @@ class Settings {
      *
      * @return string current language
      */
-    public function getLang() {
+    public function getLang()
+    {
         return $this->lang;
     }
 
     /**
      * Set language.
      *
-     * @param string $lang ISO 639-1 language code
+     * @param  string   $lang ISO 639-1 language code
      * @return Settings fluent interface
      * @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
      */
-    public function setLang($lang) {
+    public function setLang($lang)
+    {
         if (2 !== strlen($lang)) {
             throw new \InvalidArgumentException('Language identifier should be 2 characters long.');
         }
@@ -264,17 +270,19 @@ class Settings {
      *
      * @return string current transliteration system
      */
-    public function getSystem() {
+    public function getSystem()
+    {
         return $this->system;
     }
 
     /**
      * Set transliteration system.
      *
-     * @param string $system transliteration system
+     * @param  string   $system transliteration system
      * @return Settings fluent interface
      */
-    public function setSystem($system) {
+    public function setSystem($system)
+    {
         if (!in_array($system, $this->getSupportedTranliterationSystems())) {
             throw new \InvalidArgumentException(
                 sprintf('Transliteration system "%s" is not supported for "%s" language.',
@@ -294,7 +302,8 @@ class Settings {
      *
      * @return array of supported languages
      */
-    public function getSupportedLanguages() {
+    public function getSupportedLanguages()
+    {
         return array(
             self::LANG_SR,
             self::LANG_RU,
@@ -311,7 +320,8 @@ class Settings {
      *
      * @return array of supported transliteration systems
      */
-    public function getSupportedTranliterationSystems() {
+    public function getSupportedTranliterationSystems()
+    {
         $default = array(self::SYSTEM_DEFAULT);
 
         switch ($this->getLang()) {

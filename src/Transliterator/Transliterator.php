@@ -25,10 +25,11 @@ namespace Transliterator;
  *     $transliterator->lat2Cyr('Niš'); // returns 'Ниш'
  *
  * @author Саша Стаменковић <umpirsky@gmail.com>
- * 
+ *
  * @see http://en.wikipedia.org/wiki/Transliteration
  */
-class Transliterator {
+class Transliterator
+{
     /**
      * Transliterator settings.
      *
@@ -60,11 +61,12 @@ class Transliterator {
     /**
      * Transliterator constructor.
      *
-     * @param string $lang ISO 639-1 language code
+     * @param string $lang   ISO 639-1 language code
      * @param string $system transliteration system
      * @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
      */
-    public function __construct($lang, $system = Settings::SYSTEM_DEFAULT) {
+    public function __construct($lang, $system = Settings::SYSTEM_DEFAULT)
+    {
         $this->settings = new Settings($lang, $system);
         $this->dataLoader = new DataLoader();
     }
@@ -72,25 +74,29 @@ class Transliterator {
     /**
      * Set language.
      *
-     * @param string $lang ISO 639-1 language code
+     * @param  string         $lang ISO 639-1 language code
      * @return Transliterator fluent interface
      * @see http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
      */
-    public function setLang($lang) {
+    public function setLang($lang)
+    {
         $this->settings->setLang($lang);
         $this->clearCharMaps();
+
         return $this;
     }
 
     /**
      * Set transliteration system.
      *
-     * @param string $system transliteration system
+     * @param  string         $system transliteration system
      * @return Transliterator fluent interface
      */
-    public function setSystem($system) {
+    public function setSystem($system)
+    {
         $this->settings->setSystem($system);
         $this->clearCharMaps();
+
         return $this;
     }
 
@@ -99,7 +105,8 @@ class Transliterator {
      *
      * @return Transliterator fluent interface
      */
-    public function clearCharMaps() {
+    public function clearCharMaps()
+    {
         $this->cyrMap = $this->latMap = null;
 
         return $this;
@@ -108,20 +115,22 @@ class Transliterator {
     /**
      * Transliterates cyrillic text to latin.
      *
-     * @param string $text cyrillic text
-     * @return    string    latin text
+     * @param  string $text cyrillic text
+     * @return string latin text
      */
-    public function cyr2Lat($text) {
+    public function cyr2Lat($text)
+    {
         return $this->transliterate($text, true);
     }
 
     /**
      * Transliterates latin text to cyrillic.
      *
-     * @param string $text latin text
+     * @param  string $text latin text
      * @return string cyrillic text
      */
-    public function lat2Cyr($text) {
+    public function lat2Cyr($text)
+    {
         return $this->transliterate($text, false);
     }
 
@@ -129,11 +138,12 @@ class Transliterator {
      * Transliterates cyrillic text to latin and vice versa
      * depending on $direction parameter.
      *
-     * @param string $text latin text
-     * @param bool $direction if true transliterates cyrillic text to latin, if false latin to cyrillic
+     * @param  string $text      latin text
+     * @param  bool   $direction if true transliterates cyrillic text to latin, if false latin to cyrillic
      * @return string transliterated text
      */
-    public function transliterate($text, $direction) {
+    public function transliterate($text, $direction)
+    {
         if ($direction) {
             return str_replace($this->getCyrMap(), $this->getLatMap(), $text);
         } else {
@@ -146,7 +156,8 @@ class Transliterator {
      *
      * @return array cyrillic char map
      */
-    public function getCyrMap() {
+    public function getCyrMap()
+    {
         if (null === $this->cyrMap) {
             $this->cyrMap = $this->getTransliterationMap(Settings::ALPHABET_CYR);
         }
@@ -159,7 +170,8 @@ class Transliterator {
      *
      * @return array latin char map
      */
-    public function getLatMap() {
+    public function getLatMap()
+    {
         if (null === $this->latMap) {
             $this->latMap = $this->getTransliterationMap(Settings::ALPHABET_LAT);
         }
@@ -170,10 +182,11 @@ class Transliterator {
     /**
      * Get trasnsliteration char map.
      *
-     * @param string $alphabet
-     * @return array trasnsliteration map
+     * @param  string $alphabet
+     * @return array  trasnsliteration map
      */
-    protected function getTransliterationMap($alphabet) {
+    protected function getTransliterationMap($alphabet)
+    {
         return $this->dataLoader->getTransliterationMap(
             $this->settings->getMapFilePath(),
             $alphabet
@@ -183,10 +196,11 @@ class Transliterator {
     /**
      * Set cyrillic char map.
      *
-     * @param array $cyrMap cyrillic char map
+     * @param  array          $cyrMap cyrillic char map
      * @return Transliterator fluent interface
      */
-    public function setCyrMap(array $cyrMap) {
+    public function setCyrMap(array $cyrMap)
+    {
         $this->cyrMap = $cyrMap;
 
         return $this;
@@ -195,10 +209,11 @@ class Transliterator {
     /**
      * Set latin char map.
      *
-     * @param array $latMap latin char map
+     * @param  array          $latMap latin char map
      * @return Transliterator fluent interface
      */
-    public function setLatMap(array $latMap) {
+    public function setLatMap(array $latMap)
+    {
         $this->latMap = $latMap;
 
         return $this;
@@ -207,10 +222,11 @@ class Transliterator {
     /**
      * Set base path to map files.
      *
-     * @param string $mapBasePath path to map files
+     * @param  string         $mapBasePath path to map files
      * @return Transliterator fluent interface
      */
-    public function setMapBasePath($mapBasePath) {
+    public function setMapBasePath($mapBasePath)
+    {
         $this->settings->setMapBasePath($mapBasePath);
 
         return $this;
