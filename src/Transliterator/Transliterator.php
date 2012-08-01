@@ -15,15 +15,6 @@ namespace Transliterator;
  * Transliterator is used to convert text from
  * cyrillic to latin and vice versa.
  *
- * Usage:
- *
- *     $transliterator = new Transliterator(Settings::LANG_RU);
- *     $transliterator->cyr2Lat('Русский'); // returns 'Russkij'
- *     $transliterator->lat2Cyr('Russkij'); // returns 'Русский'
- *     $transliterator->setLang(Settings::LANG_SR);
- *     $transliterator->cyr2Lat('Ниш'); // returns 'Niš'
- *     $transliterator->lat2Cyr('Niš'); // returns 'Ниш'
- *
  * @author Саша Стаменковић <umpirsky@gmail.com>
  *
  * @see http://en.wikipedia.org/wiki/Transliteration
