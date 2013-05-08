@@ -166,6 +166,8 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     public static function testRussianGOST1971Provider()
     {
         return array(
+            array('Щ щ', 'Shh shh', false),
+            array('Shh shh', 'Щ щ', true),
             array('Ю ю', 'Yu yu', false),
             array('Я я', 'Ya ya', false)
         );
