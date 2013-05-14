@@ -168,8 +168,20 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
         return array(
             array('Щ щ', 'Shh shh', false),
             array('Shh shh', 'Щ щ', true),
-            array('Ю ю', 'Yu yu', false),
-            array('Я я', 'Ya ya', false)
+            array('Ы ы', "Y y", false),
+            array("Y y", 'Ы ы', true),
+            array('Э э', "Eh eh", false),
+            array("Eh eh", 'Э э', true),
+            array('Х х', "Kh kh", false),
+            array("Kh kh", 'Х х', true),
+            array('Ю ю', 'Ju ju', false),
+            array('Ju ju', 'Ю ю', true),
+            array('Я я', 'Ja ja', false),
+            array('Ja ja', 'Я я', true),
+            array('Й й', 'Jj jj', false),
+            array('Jj jj', 'Й й', true),
+            array('ь', "'", false),
+            array("' '", 'Ь ь', true),
         );
     }
 
@@ -206,6 +218,34 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
                array('Я я', 'Ja ja', false),
                array('Э э', 'È è', false),
                array('È è', 'Э э', true)
+        );
+    }
+
+    /**
+     * @dataProvider testRussianGOST2000BProvider
+     */
+    public function testRussianGOST2000B($expected, $actual, $direction)
+    {
+        $this->assertEquals($expected, self::$transliteratorRu->setSystem(Settings::SYSTEM_GOST_2000_B)->transliterate($actual, $direction), sprintf('Used maps: %s %s %s', var_export(self::$transliteratorRu->getCyrMap(), true), PHP_EOL, var_export(self::$transliteratorRu->getLatMap(), true)));
+    }
+
+    public static function testRussianGOST2000BProvider()
+    {
+        return array(
+            array('Щ щ', 'Shh shh', false),
+            array('Shh shh', 'Щ щ', true),
+            array('Ы ы', "Y' y'", false),
+            array("Y' y'", 'Ы ы', true),
+            array('Э э', "E' e'", false),
+            array("E' e'", 'Э э', true),
+            array('Х х', "Kh kh", false),
+            array("Kh kh", 'Х х', true),
+            array('Ю ю', 'Yu yu', false),
+            array('Yu yu', 'Ю ю', true),
+            array('Я я', 'Ya ya', false),
+            array('Ya ya', 'Я я', true),
+            array('Й й', 'J j', false),
+            array('J j', 'Й й', true),
         );
     }
 

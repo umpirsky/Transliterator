@@ -104,6 +104,11 @@ class Settings
     const SYSTEM_GOST_2002 = 'GOST_2002';
 
     /**
+     * GOST 2000 transliteration system.
+     */
+    const SYSTEM_GOST_2000_B = 'GOST_2000_B';
+
+    /**
      * ALA-LC transliteration system.
      */
     const SYSTEM_ALA_LC = 'ALA_LC';
@@ -330,6 +335,7 @@ class Settings
                     self::SYSTEM_ISO_R_9_1968,
                     self::SYSTEM_GOST_1971,
                     self::SYSTEM_GOST_1983,
+                    self::SYSTEM_GOST_2000_B,
                     self::SYSTEM_GOST_2002,
                     self::SYSTEM_ALA_LC,
                     self::SYSTEM_British_Standard,
