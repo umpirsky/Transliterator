@@ -24,8 +24,9 @@ Languages and Transliteration Systems Supported
 
 - [Russian](http://en.wikipedia.org/wiki/Romanization_of_Russian)
     * ISO R 9 1968
-    * GOST 1971
+    * GOST 1971 (GOST 16876-71 table 2)
     * GOST 1983
+    * GOST 2000 (GOST 7.79-2000, system B; ISO (1995))
     * GOST 2002
     * ALA LC
     * British Standard
