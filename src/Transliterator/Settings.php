@@ -174,6 +174,16 @@ class Settings
     const ALPHABET_LAT = 'lat';
 
     /**
+     * Cyrillic additional replacement rules
+     */
+    const ALPHABET_CYR_REGEXP = 'cyr_regexp';
+
+    /**
+     * Latin  additional replacement rules
+     */
+    const ALPHABET_LAT_REGEXP = 'lat_regexp';
+
+    /**
      * ISO 639-1 language code.
      *
      * @var string

@@ -316,8 +316,32 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
         return array(
             array('Ю ю', 'Yu yu', false),
                array('Я я', 'Ya ya', false),
-               array('Э э', 'E e', false),
-               array('E e', 'Э э', true)
+//               array('Э э', 'E e', false),
+//               array('E e', 'Э э', true)
+        );
+    }
+
+    /**
+     * @dataProvider testRussianBGNPCGNSpecificProvider
+     */
+    public function testRussianBGNPCGNSpecific($expected, $actual, $direction)
+    {
+        $transliterated = self::$transliteratorRu->setSystem(Settings::SYSTEM_BGN_PCGN)->transliterate($actual, $direction);
+
+        $this->assertEquals($expected, $transliterated);
+
+        $this->assertEquals($actual, self::$transliteratorRu->setSystem(Settings::SYSTEM_BGN_PCGN)->transliterate($transliterated, !$direction));
+    }
+
+    public static function testRussianBGNPCGNSpecificProvider()
+    {
+        return array(
+            array(
+                'Yekaterinburg Yekaterinburg Yurʼyev Sˮyezd Chapayevsk Belkin Ozërnyy Podˮyëmnyy Gromadʼyë Yyënchëping Ostriyë Yëlkin Sayylyk',
+                'Екатеринбург Екатеринбург Юрьев Съезд Чапаевск Белкин Озёрный Подъёмный Громадьё Йёнчёпинг Остриё Ёлкин Сайылык',
+                true
+            )
+
         );
     }
 

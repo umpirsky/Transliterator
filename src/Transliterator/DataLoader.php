@@ -43,7 +43,7 @@ class DataLoader
     public function getTransliterationMap($path, $alphabet)
     {
         // Valdate
-        if (!in_array($alphabet, array(Settings::ALPHABET_CYR, Settings::ALPHABET_LAT))) {
+        if (!in_array($alphabet, array(Settings::ALPHABET_CYR, Settings::ALPHABET_LAT, Settings::ALPHABET_CYR_REGEXP, Settings::ALPHABET_LAT_REGEXP))) {
             throw new \InvalidArgumentException(sprintf('Alphabet "%s" is not recognized.', $alphabet));
         }
 
