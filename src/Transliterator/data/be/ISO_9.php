@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+namespace Transliterator;
+
 /**
  * Belarusian mapping (ISO 9 system).
  *

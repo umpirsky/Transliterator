@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+namespace Transliterator;
+
 /**
  * Russian mapping (GOST 1986 system).
  *

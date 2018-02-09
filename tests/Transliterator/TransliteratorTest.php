@@ -13,8 +13,9 @@ namespace Transliterator\Tests;
 
 use Transliterator\Settings;
 use Transliterator\Transliterator;
+use PHPUnit\Framework\TestCase;
 
-class TranslatorTest extends \PHPUnit_Framework_TestCase
+class TranslatorTest extends TestCase
 {
     /**
      * Transliterator.
@@ -84,6 +85,34 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
         self::$transliteratorEl = new Transliterator(Settings::LANG_EL);
     }
 
+    public function testConstructor()
+    {
+        $transliterator = new Transliterator('uk');
+
+        $this->assertInstanceOf('\Transliterator\Transliterator', $transliterator);
+    }
+
+    public function testSetLang()
+    {
+        $transliterator = new Transliterator('uk');
+
+        $this->assertInstanceOf('\Transliterator\Transliterator', $transliterator->setLang('uk'));
+    }
+
+    public function testCyr2Lat()
+    {
+        $transliterator = new Transliterator('uk');
+
+        $this->assertEquals('text', $transliterator->cyr2Lat('text'));
+    }
+
+    public function testSetMapBasePath()
+    {
+        $transliterator = new Transliterator('uk');
+
+        $this->assertInstanceOf('\Transliterator\Transliterator', $transliterator->setMapBasePath('map_base_file_path'));
+    }
+
     /**
      * @expectedException InvalidArgumentException
      */
@@ -112,14 +141,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testSerbianProvider
+     * @dataProvider dataSerbianProvider
      */
     public function testSerbian($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorSr->transliterate($actual, $direction));
     }
 
-    public static function testSerbianProvider()
+    public static function dataSerbianProvider()
     {
         return array(
             array('Ниш', 'Niš', false),
@@ -134,14 +163,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testRussianProvider
+     * @dataProvider dataRussianProvider
      */
     public function testRussian($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorRu->setSystem(Settings::SYSTEM_DEFAULT)->transliterate($actual, $direction));
     }
 
-    public static function testRussianProvider()
+    public static function dataRussianProvider()
     {
         return array(
             array('Ю ю', 'Ju ju', false),
@@ -156,14 +185,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testRussianGOST1971Provider
+     * @dataProvider dataRussianGOST1971Provider
      */
     public function testRussianGOST1971($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorRu->setSystem(Settings::SYSTEM_GOST_1971)->transliterate($actual, $direction), sprintf('Used maps: %s %s %s', var_export(self::$transliteratorRu->getCyrMap(), true), PHP_EOL, var_export(self::$transliteratorRu->getLatMap(), true)));
     }
 
-    public static function testRussianGOST1971Provider()
+    public static function dataRussianGOST1971Provider()
     {
         return array(
             array('Щ щ', 'Shh shh', false),
@@ -186,14 +215,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testRussianISOR91968Provider
+     * @dataProvider dataRussianISOR91968Provider
      */
     public function testRussianISOR91968($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorRu->setSystem(Settings::SYSTEM_ISO_R_9_1968)->transliterate($actual, $direction));
     }
 
-    public static function testRussianISOR91968Provider()
+    public static function dataRussianISOR91968Provider()
     {
         return array(
             array('Ю ю', 'Ju ju', false),
@@ -204,14 +233,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testRussianGOST1983Provider
+     * @dataProvider dataRussianGOST1983Provider
      */
     public function testRussianGOST1983($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorRu->setSystem(Settings::SYSTEM_GOST_1983)->transliterate($actual, $direction));
     }
 
-    public static function testRussianGOST1983Provider()
+    public static function dataRussianGOST1983Provider()
     {
         return array(
             array('Ю ю', 'Ju ju', false),
@@ -222,14 +251,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testRussianGOST2000BProvider
+     * @dataProvider dataRussianGOST2000BProvider
      */
     public function testRussianGOST2000B($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorRu->setSystem(Settings::SYSTEM_GOST_2000_B)->transliterate($actual, $direction), sprintf('Used maps: %s %s %s', var_export(self::$transliteratorRu->getCyrMap(), true), PHP_EOL, var_export(self::$transliteratorRu->getLatMap(), true)));
     }
 
-    public static function testRussianGOST2000BProvider()
+    public static function dataRussianGOST2000BProvider()
     {
         return array(
             array('Щ щ', 'Shh shh', false),
@@ -250,14 +279,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testRussianGOST2002Provider
+     * @dataProvider dataRussianGOST2002Provider
      */
     public function testRussianGOST2002($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorRu->setSystem(Settings::SYSTEM_GOST_2002)->transliterate($actual, $direction));
     }
 
-    public static function testRussianGOST2002Provider()
+    public static function dataRussianGOST2002Provider()
     {
         return array(
             array('Ю ю', 'Û û', false),
@@ -268,14 +297,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testRussianALALCProvider
+     * @dataProvider dataRussianALALCProvider
      */
     public function testRussianALALC($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorRu->setSystem(Settings::SYSTEM_ALA_LC)->transliterate($actual, $direction));
     }
 
-    public static function testRussianALALCProvider()
+    public static function dataRussianALALCProvider()
     {
         return array(
             array('Ю ю', 'I͡u i͡u', false),
@@ -286,14 +315,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testRussianBritishStandardProvider
+     * @dataProvider dataRussianBritishStandardProvider
      */
     public function testRussianBritishStandard($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorRu->setSystem(Settings::SYSTEM_British_Standard)->transliterate($actual, $direction));
     }
 
-    public static function testRussianBritishStandardProvider()
+    public static function dataRussianBritishStandardProvider()
     {
         return array(
             array('Ю ю', 'Yu yu', false),
@@ -304,14 +333,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testRussianBGNPCGNProvider
+     * @dataProvider dataRussianBGNPCGNProvider
      */
     public function testRussianBGNPCGN($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorRu->setSystem(Settings::SYSTEM_BGN_PCGN)->transliterate($actual, $direction));
     }
 
-    public static function testRussianBGNPCGNProvider()
+    public static function dataRussianBGNPCGNProvider()
     {
         return array(
             array('Ю ю', 'Yu yu', false),
@@ -322,14 +351,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testRussianPassport2003Provider
+     * @dataProvider dataRussianPassport2003Provider
      */
     public function testRussianPassport2003($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorRu->setSystem(Settings::SYSTEM_Passport_2003)->transliterate($actual, $direction));
     }
 
-    public static function testRussianPassport2003Provider()
+    public static function dataRussianPassport2003Provider()
     {
         return array(
             array('Ю ю', 'Yu yu', false),
@@ -340,14 +369,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testBelarusianProvider
+     * @dataProvider dataBelarusianProvider
      */
     public function testBelarusian($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorBe->setSystem(Settings::SYSTEM_DEFAULT)->transliterate($actual, $direction));
     }
 
-    public static function testBelarusianProvider()
+    public static function dataBelarusianProvider()
     {
         return array(
             array('д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', 'd  dž  dz  e  ë  ž  z  i  j  k  l  m  n  o  p  r  s  t  u  ŭ  f  x  c  č  š', false),
@@ -356,14 +385,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testBelarusianALALCProvider
+     * @dataProvider dataBelarusianALALCProvider
      */
     public function testBelarusianALALC($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorBe->setSystem(Settings::SYSTEM_ALA_LC)->transliterate($actual, $direction));
     }
 
-    public static function testBelarusianALALCProvider()
+    public static function dataBelarusianALALCProvider()
     {
         return array(
             array('д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', 'd  dz͡h  dz  e  i͡o  z͡h  z  i  ĭ  k  l  m  n  o  p  r  s  t  u  ŭ  f  kh  ts  ch  sh', false),
@@ -372,14 +401,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testBelarusianBGNPCGNProvider
+     * @dataProvider dataBelarusianBGNPCGNProvider
      */
     public function testBelarusianBGNPCGN($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorBe->setSystem(Settings::SYSTEM_BGN_PCGN)->transliterate($actual, $direction));
     }
 
-    public static function testBelarusianBGNPCGNProvider()
+    public static function dataBelarusianBGNPCGNProvider()
     {
         return array(
             array('д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', 'd  dzh  dz  ye  yo  zh  z  i  y  k  l  m  n  o  p  r  s  t  u  w  f  kh  ts  ch  sh', false),
@@ -388,14 +417,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testBelarusianISO9Provider
+     * @dataProvider dataBelarusianISO9Provider
      */
     public function testBelarusianISO9($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorBe->setSystem(Settings::SYSTEM_ISO_9)->transliterate($actual, $direction));
     }
 
-    public static function testBelarusianISO9Provider()
+    public static function dataBelarusianISO9Provider()
     {
         return array(
             array('д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', 'd  dž  dz  e  ë  ž  z  ì  j  k  l  m  n  o  p  r  s  t  u  ǔ  f  h  c  č  š', false),
@@ -404,14 +433,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testBelarusianNational2000Provider
+     * @dataProvider dataBelarusianNational2000Provider
      */
     public function testBelarusianNational2000($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorBe->setSystem(Settings::SYSTEM_National_2000)->transliterate($actual, $direction));
     }
 
-    public static function testBelarusianNational2000Provider()
+    public static function dataBelarusianNational2000Provider()
     {
         return array(
             array('д  дж  дз  е  ё  ж  з  і  й  к  л  м  н  о  п  р  с  т  у  ў  ф  х  ц  ч  ш', 'd  dž  dz  ie  io  ž  z  i  j  k  l  m  n  o  p  r  s  t  u  ú  f  ch  c  č  š', false),
@@ -420,14 +449,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testMacedonianProvider
+     * @dataProvider dataMacedonianProvider
      */
     public function testMacedonian($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorMk->setSystem(Settings::SYSTEM_DEFAULT)->transliterate($actual, $direction));
     }
 
-    public static function testMacedonianProvider()
+    public static function dataMacedonianProvider()
     {
         return array(
             array('а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', 'a b v g d gj e zh z dz i j k l lj m n nj o p r s t kj u f h c ch dj sh', false),
@@ -436,14 +465,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testMacedonianISO91995Provider
+     * @dataProvider dataMacedonianISO91995Provider
      */
     public function testMacedonianISO91995($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorMk->setSystem(Settings::SYSTEM_ISO_9_1995)->transliterate($actual, $direction));
     }
 
-    public static function testMacedonianISO91995Provider()
+    public static function dataMacedonianISO91995Provider()
     {
         return array(
             array('а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', 'a b v g d ǵ e ž z ẑ i ǰ k l l̂ m n n̂ o p r s t ḱ u f h c č d̂ š', false),
@@ -452,14 +481,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testMacedonianBGNPCGNProvider
+     * @dataProvider dataMacedonianBGNPCGNProvider
      */
     public function testMacedonianBGNPCGN($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorMk->setSystem(Settings::SYSTEM_BGN_PCGN)->transliterate($actual, $direction));
     }
 
-    public static function testMacedonianBGNPCGNProvider()
+    public static function dataMacedonianBGNPCGNProvider()
     {
         return array(
             array('а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', 'a b v g d đ e ž z dz i j k l lj m n nj o p r s t ć u f h c č dž š', false),
@@ -468,14 +497,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testMacedonianISO9R1968NationalAcademyProvider
+     * @dataProvider dataMacedonianISO9R1968NationalAcademyProvider
      */
     public function testMacedonianISO9R1968NationalAcademy($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorMk->setSystem(Settings::SYSTEM_ISO_9_R_1968_National_Academy)->transliterate($actual, $direction));
     }
 
-    public static function testMacedonianISO9R1968NationalAcademyProvider()
+    public static function dataMacedonianISO9R1968NationalAcademyProvider()
     {
         return array(
             array('а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', 'a b v g d ǵ e ž z dz i j k l lj m n nj o p r s t ḱ u f h c č dž š', false),
@@ -484,14 +513,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testMacedonianISO9R1968bProvider
+     * @dataProvider dataMacedonianISO9R1968bProvider
      */
     public function testMacedonianISO9R1968b($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorMk->setSystem(Settings::SYSTEM_ISO_9_R_1968_b)->transliterate($actual, $direction));
     }
 
-    public static function testMacedonianISO9R1968bProvider()
+    public static function dataMacedonianISO9R1968bProvider()
     {
         return array(
             array('а б в г д ѓ е ж з ѕ и ј к л љ м н њ о п р с т ќ у ф х ц ч џ ш', 'a b v g d ǵ e zh z dz i j k l lj m n nj o p r s t ḱ u f kh ts ch dž sh', false),
@@ -500,14 +529,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testUkrainianProvider
+     * @dataProvider dataUkrainianProvider
      */
     public function testUkrainian($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_DEFAULT)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianProvider()
+    public static function dataUkrainianProvider()
     {
         return array(
             array('а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v h g d e je ž z y i ji j k l m n o p r s t u f x c č š šč ′ ju ja', false),
@@ -516,14 +545,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testUkrainianALALCProvider
+     * @dataProvider dataUkrainianALALCProvider
      */
     public function testUkrainianALALC($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_ALA_LC)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianALALCProvider()
+    public static function dataUkrainianALALCProvider()
     {
         return array(
             array('а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v h g d e i͡e z͡h z y i ï ĭ k l m n o p r s t u f kh t͡s ch sh shch ′ i͡u i͡a', false),
@@ -532,14 +561,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testUkrainianBritishProvider
+     * @dataProvider dataUkrainianBritishProvider
      */
     public function testtestUkrainianBritish($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_British)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianBritishProvider()
+    public static function dataUkrainianBritishProvider()
     {
         return array(
             array('а б в г г д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v g g d e ye zh z y i ï ĭ k l m n o p r s t u f kh ts ch sh shch ′ yu ya', false),
@@ -548,14 +577,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
      /**
-     * @dataProvider testUkrainianBGNPCGNProvider
+     * @dataProvider dataUkrainianBGNPCGNProvider
      */
     public function testUkrainianBGNPCGN($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_BGN_PCGN)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianBGNPCGNProvider()
+    public static function dataUkrainianBGNPCGNProvider()
     {
         return array(
             array('а б в г ґ д е є ж з и і ї и к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v h g d e ye zh z y i yi y k l m n o p r s t u f kh ts ch sh shch ’ yu ya', false),
@@ -564,14 +593,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testUkrainianISO9Provider
+     * @dataProvider dataUkrainianISO9Provider
      */
     public function testUkrainianISO9($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_ISO_9)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianISO9Provider()
+    public static function dataUkrainianISO9Provider()
     {
         return array(
             array('а б в г д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v g d e ê ž z i ì ï j k l m n o p r s t u f h c č š ŝ ′ û â', false),
@@ -580,14 +609,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testUkrainianNationalProvider
+     * @dataProvider dataUkrainianNationalProvider
      */
     public function testUkrainianNational($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_National)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianNationalProvider()
+    public static function dataUkrainianNationalProvider()
     {
         return array(
             array('а б в г ґ д е є ж з и і і і к л м н о п р с т у ф х ц ч ш щ ь ю я', 'a b v h g d e ie zh z y i i i k l m n o p r s t u f kh ts ch sh sch ’ iu ia', false),
@@ -596,14 +625,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testUkrainianGOST1971Provider
+     * @dataProvider dataUkrainianGOST1971Provider
      */
     public function testUkrainianGOST1971($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_GOST_1971)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianGOST1971Provider()
+    public static function dataUkrainianGOST1971Provider()
     {
         return array(
             array('а б в г д е є ж з и ї й к л м н о п р с т у ф х ц ч ш щ ь ю я', "a b v g d e je zh z i ji j k l m n o p r s t u f kh c ch sh shh ' ju ja", false),
@@ -612,14 +641,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testUkrainianGOST1986Provider
+     * @dataProvider dataUkrainianGOST1986Provider
      */
     public function testUkrainianGOST1986($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_GOST_1986)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianGOST1986Provider()
+    public static function dataUkrainianGOST1986Provider()
     {
         return array(
             array('а б в г д е є ж з й к л м н о п р с т у ф х ц ч ш щ ь ю я', "a b v g d e je ž z j k l m n o p r s t u f h c č š šč ' ju ja", false),
@@ -628,14 +657,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testUkrainianDerzhstandart1995Provider
+     * @dataProvider dataUkrainianDerzhstandart1995Provider
      */
     public function testUkrainianDerzhstandart1995($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_Derzhstandart_1995)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianDerzhstandart1995Provider()
+    public static function dataUkrainianDerzhstandart1995Provider()
     {
         return array(
             array('а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ю я', 'a b v gh g d e je zh z y i ji j k l m n o p r s t u f kh c ch sh shh ju ja', false),
@@ -644,14 +673,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testUkrainianPassport2004Provider
+     * @dataProvider dataUkrainianPassport2004Provider
      */
     public function testUkrainianPassport2004($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_Passport_2004)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianPassport2004Provider()
+    public static function dataUkrainianPassport2004Provider()
     {
         return array(
             array('а б в г ґ д е к л м н о п р с т у ф х ц ч ш щ ь ю я', "a b v h g d e k l m n o p r s t u f kh ts ch sh shch ' iu ia", false),
@@ -660,14 +689,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testUkrainianPassport2007Provider
+     * @dataProvider dataUkrainianPassport2007Provider
      */
     public function testUkrainianPassport2007($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_Passport_2007)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianPassport2007Provider()
+    public static function dataUkrainianPassport2007Provider()
     {
         return array(
             array('а б в г д е є ж з и к л м н о п р с т у ф х ц ч ш щ ю я', 'a b v g d e ie zh z y k l m n o p r s t u f kh ts ch sh shch iu ia', false),
@@ -676,14 +705,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testUkrainianPassport2010Provider
+     * @dataProvider dataUkrainianPassport2010Provider
      */
     public function testUkrainianPassport2010($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorUk->setSystem(Settings::SYSTEM_Passport_2010)->transliterate($actual, $direction));
     }
 
-    public static function testUkrainianPassport2010Provider()
+    public static function dataUkrainianPassport2010Provider()
     {
         return array(
             array('а б в г ґ д е є и к л м н о п р с т у ф х ц ч ш щ ю я', 'a b v h g d e i y k l m n o p r s t u f kh ts ch sh shch iu ia', false),
@@ -692,14 +721,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testBulgarianProvider
+     * @dataProvider dataBulgarianProvider
      */
     public function testBulgarian($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorBg->setSystem(Settings::SYSTEM_DEFAULT)->transliterate($actual, $direction));
     }
 
-    public static function testBulgarianProvider()
+    public static function dataBulgarianProvider()
     {
         return array(
             array('а б в г д е з и к л м н о п р с т ф ж ч ш щ ц х й ю я ь у ъ ѣ ѫ', 'a b v g d e z i k l m n o p r s t f ž č š ŝ c h j û â ′ u ″ ě ǎ', false),
@@ -708,14 +737,14 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testGreekProvider
+     * @dataProvider dataGreekProvider
      */
     public function testGreek($expected, $actual, $direction)
     {
         $this->assertEquals($expected, self::$transliteratorEl->setSystem(Settings::SYSTEM_DEFAULT)->transliterate($actual, $direction));
     }
 
-    public static function testGreekProvider()
+    public static function dataGreekProvider()
     {
         return array(
             array('α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ τ υ φ χ ψ ω', 'a b g d e z h q i k l m n c o p r s t u f x y w', false),

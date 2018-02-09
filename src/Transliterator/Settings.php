@@ -375,10 +375,7 @@ class Settings
                 ));
             break;
             case self::LANG_BG:
-                return $default;
-            break;
             case self::LANG_EL:
-                return $default;
             break;
         }
 

@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+namespace Transliterator;
+
 /**
  * Bulgarian mapping (ISO 9 (1995) system).
  *
