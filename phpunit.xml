@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit bootstrap="src/autoload.php">
+<phpunit bootstrap="vendor/autoload.php" colors="true" backupGlobals="false" 
+         backupStaticAttributes="false" syntaxCheck="false">
     <testsuites>
-        <testsuite name="Transliterator Test Suite">
-            <directory>./tests/Transliterator/</directory>
+        <testsuite name="Tests">
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="false">
+            <directory suffix=".php">src/Transliterator</directory>
+        </whitelist>
+    </filter>
 </phpunit>
