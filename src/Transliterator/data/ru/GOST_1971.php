@@ -9,8 +9,6 @@
  * file that was distributed with this source code.
  */
 
-namespace Transliterator;
-
 /**
  * Russian mapping (GOST 16876-71 table 2).
  *

@@ -9,8 +9,6 @@
  * file that was distributed with this source code.
  */
 
-namespace Transliterator;
-
 /**
  * Russian mapping (ISO 9 system).
  *
