@@ -50,6 +50,20 @@ class Transliterator
     protected $latMap;
 
     /**
+     * Cyrillic replacement rules.
+     *
+     * @var array
+     */
+    protected $cyrReplacement;
+
+    /**
+     * Latin replacement rules.
+     *
+     * @var array
+     */
+    protected $latReplacement;
+
+    /**
      * Transliterator constructor.
      *
      * @param string $lang   ISO 639-1 language code
@@ -125,6 +139,27 @@ class Transliterator
         return $this->transliterate($text, false);
     }
 
+    private function preReplace($rules, $text)
+    {
+        if($rules)
+        {
+            $preparedPatterns = array_map(
+                function ($item)
+                {
+                    return str_replace('/', '`', $item) . 'u';
+                },
+                $rules['pattern']
+            );
+            return preg_replace(
+                $preparedPatterns,
+                $rules['replacement'],
+                $text
+            );
+        }
+
+        return $text;
+    }
+
     /**
      * Transliterates cyrillic text to latin and vice versa
      * depending on $direction parameter.
@@ -136,8 +171,12 @@ class Transliterator
     public function transliterate($text, $direction)
     {
         if ($direction) {
+            $text = $this->preReplace($this->getCyrReplacement(), $text);
+
             return str_replace($this->getCyrMap(), $this->getLatMap(), $text);
         } else {
+            $text = $this->preReplace($this->getLatReplacement(), $text);
+
             return str_replace($this->getLatMap(), $this->getCyrMap(), $text);
         }
     }
@@ -168,6 +207,34 @@ class Transliterator
         }
 
         return $this->latMap;
+    }
+
+    /**
+     * Get cyrillic char map.
+     *
+     * @return array cyrillic char map
+     */
+    public function getCyrReplacement()
+    {
+        if (null === $this->cyrReplacement) {
+            $this->cyrReplacement = $this->getTransliterationMap(Settings::ALPHABET_CYR_REGEXP);
+        }
+
+        return $this->cyrReplacement;
+    }
+
+    /**
+     * Get latin char map.
+     *
+     * @return array latin char map
+     */
+    public function getLatReplacement()
+    {
+        if (null === $this->latReplacement) {
+            $this->latReplacement = $this->getTransliterationMap(Settings::ALPHABET_LAT_REGEXP);
+        }
+
+        return $this->latReplacement;
     }
 
     /**
